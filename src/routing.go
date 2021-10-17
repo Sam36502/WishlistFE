@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+	"runtime"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,12 +11,25 @@ import (
 func InitRoutes(e *echo.Echo) {
 
 	e.GET("/", testPage)
+	e.GET("/style", style)
 
 }
 
+type Data struct {
+	CurrTime string
+	System   string
+}
+
 func testPage(c echo.Context) error {
-	return c.HTML(
-		http.StatusOK,
-		"<h1>It's working!</h2>",
+	return c.Render(
+		http.StatusOK, "test",
+		Data{
+			CurrTime: time.Now().Format("Monday, 02-Jan-06 15:04:05 MST"),
+			System:   runtime.GOOS,
+		},
 	)
+}
+
+func style(c echo.Context) error {
+	return c.File("css/main.css")
 }
