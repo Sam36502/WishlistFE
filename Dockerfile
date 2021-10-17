@@ -3,6 +3,7 @@ RUN mkdir /data
 COPY run_server_linux /data/run_server_linux
 ADD templates /data/templates
 ADD css /data/css
+RUN ls /data/templates
 COPY certs /certs
 ENV WISHLIST_FE_PORT 5000
 ENV WISHLIST_SSL_CERT /certs/fullchain.pem
