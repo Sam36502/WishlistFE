@@ -39,7 +39,7 @@ image: build get-certs
 image-clean: image clean-certs
 
 ## Starts the docker-compose cluster
-up: image-clean
+up: down image-clean
 	@echo "### Starting Container ###"
 	@docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE}
 
