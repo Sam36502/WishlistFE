@@ -11,7 +11,6 @@ import (
 func InitRoutes(e *echo.Echo) {
 
 	e.GET("/", testPage)
-	e.GET("/style", style)
 
 }
 
@@ -28,8 +27,4 @@ func testPage(c echo.Context) error {
 			System:   runtime.GOOS,
 		},
 	)
-}
-
-func style(c echo.Context) error {
-	return c.File("css/main.css")
 }
