@@ -1,0 +1,11 @@
+{{define "search"}}
+{{define "content"}}
+    <form action="/search">
+        <input type="text" name="s" class="input-reset">
+        <input type="submit" class="button-reset bg-black white">
+    </form>
+
+    <div class="f-subheadline">No Results :(</div>
+{{end}}
+{{template "base"}}
+{{end}}

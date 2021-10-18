@@ -1,0 +1,11 @@
+{{define "main"}}
+{{define "content"}}
+    <div class="f-headline">Wishlist</div>
+    <div class="f2">Search for users:</div>
+    <form action="/search">
+        <input type="text" name="s" class="input-reset">
+        <input type="submit" class="button-reset bg-black white">
+    </form>
+{{end}}
+{{template "base"}}
+{{end}}
