@@ -1,11 +1,10 @@
-{{define "main"}}
+{{template "base" .}}
+
 {{define "content"}}
-    <div class="f-headline">Wishlist</div>
+    <div class="baskerville tc f-headline ">Wishlist</div>
     <div class="f2">Search for users:</div>
-    <form action="/search">
-        <input type="text" name="s" class="input-reset">
-        <input type="submit" class="button-reset bg-black white">
+    <form id="search-form" action="/search" class="f4 f3-ns flex">
+        <input type="text" name="s" class="input-reset w-90 ba">
+        <div class="button-reset bg-black f4 pa2 white bn" onclick="javascript:document.getElementById('search-form').submit();">Search</div>
     </form>
-{{end}}
-{{template "base"}}
 {{end}}

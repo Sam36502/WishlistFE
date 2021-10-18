@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 
@@ -8,16 +9,26 @@ import (
 )
 
 type Template struct {
-	templates *template.Template
+	templates map[string]*template.Template
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
+	return template.Must(t.templates[name], nil).Execute(w, data)
 }
 
 func LoadTemplates(e *echo.Echo) {
-	t := &Template{
-		templates: template.Must(template.ParseGlob("templates/*.html")),
+	m := make(map[string]*template.Template)
+
+	var err error
+
+	// Add templates here:
+	m["main"], err = template.ParseFiles("templates/base.html", "templates/main.html")
+	m["search"], err = template.ParseFiles("templates/base.html", "templates/search.html")
+
+	if err != nil {
+		fmt.Println("[ERR] Failed to load templates:\n", err)
 	}
+
+	t := &Template{m}
 	e.Renderer = t
 }

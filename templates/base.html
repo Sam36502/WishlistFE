@@ -1,29 +1,25 @@
-{{define "base"}}
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html class="h-100" lang="en"><head>
     <meta charset="UTF-8">
     <title>A Basic Wishlist Program</title>
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css">
 </head>
-<body class="helvetica ">
+<body class="h-100 helvetica bg-near-white">
 
-    <!-- Navbar -->
-    <nav class="flex justify-between bb b--white-10">
-        <a class="link white dim no-underline flex items-center pa3 b" href="">Wishlist Home</a>
+    
+    <nav class="flex justify-between bb bg-black shadow-2">
+        <a class="link white dim no-underline flex items-center pa3 b" href="/">Wishlist Home</a>
         <div class="flex-grow pa3 flex items-center">
-            <a class="f6 link dib white dim mr3 mr4-ns" href="#0">Search Users</a>
-            <a class="f6 link dib white dim mr3 mr4-ns" href="#0">Log In</a>
-            <a class="f6 link dib white dim mr3 mr4-ns" href="#0">Register</a>
+            <a class="f6 link dib white dim mr3 mr4-ns" href="/search">Search Users</a>
+            <a class="f6 link dib white dim mr3 mr4-ns" href="/login">Log In</a>
+            <a class="f6 link dib white dim mr3 mr4-ns" href="/register">Register</a>
         </div>
     </nav>
 
-    <!-- main content -->
-    <div class="m5 p3 bg-white">
-        {{block "content".}}{{end}}
+    
+    <div class="w-90 w-60-ns center ma3 mt5-ns pa4 bg-white shadow-4">
+    {{template "content" .}}
     </div>
-
 
 </body>
 </html>
-{{end}}

@@ -1,11 +1,10 @@
-{{define "search"}}
+{{template "base" .}}
+
 {{define "content"}}
-    <form action="/search">
-        <input type="text" name="s" class="input-reset">
-        <input type="submit" class="button-reset bg-black white">
+    <form id="search-form" action="/search" class="f4 f3-ns flex">
+        <input type="text" name="s" class="input-reset w-90 ba">
+        <div class="button-reset bg-black f4 pa2 white bn" onclick="javascript:document.getElementById('search-form').submit();">Search</div>
     </form>
 
-    <div class="f-subheadline">No Results :(</div>
-{{end}}
-{{template "base"}}
+    <div class="mt4 f3 f2-ns">No Results :(</div>
 {{end}}
