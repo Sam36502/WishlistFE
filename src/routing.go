@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	wishlist "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
 )
 
@@ -25,5 +26,7 @@ func pgMain(c echo.Context) error {
 }
 
 func pgSearch(c echo.Context) error {
-	return c.Render(http.StatusOK, "search", nil)
+	ctx := wishlist.DefaultContext()
+	users, _ := ctx.GetAllUsers()
+	return c.Render(http.StatusOK, "search", users[0].Name)
 }
