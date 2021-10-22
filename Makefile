@@ -11,12 +11,12 @@ help:
 ## Builds the executable for linux
 build:
 	@echo "### Building Linux Executable ###"
-	@GOOS="linux" go build -o ${EXE_LINUX} ./src/
+	@GOOS="linux" go build -o data/${EXE_LINUX} ./src/
 
 ## Builds the executable for windows
 build-win:
 	@echo "### Building Windows Executable ###"
-	@GOOS="windows" go build -o ${EXE_WIN} ./src/
+	@GOOS="windows" go build -o data/${EXE_WIN} ./src/
 
 ## cleans certs directory
 clean-certs:

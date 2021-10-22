@@ -22,8 +22,8 @@ func LoadTemplates(e *echo.Echo) {
 	var err error
 
 	// Add templates here:
-	m["main"], err = template.ParseFiles("templates/base.html", "templates/main.html")
-	m["search"], err = template.ParseFiles("templates/base.html", "templates/search.html")
+	m["main"], err = template.ParseFiles("data/templates/base.html", "data/templates/main.html")
+	m["search"], err = template.ParseFiles("data/templates/base.html", "data/templates/search.html")
 
 	if err != nil {
 		fmt.Println("[ERR] Failed to load templates:\n", err)

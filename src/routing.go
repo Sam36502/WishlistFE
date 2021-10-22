@@ -11,6 +11,8 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/", pgMain)
 	e.GET("/search", pgSearch)
 
+	e.File("/favicon.ico", "data/img/favicon.ico")
+
 }
 
 type Data struct {
