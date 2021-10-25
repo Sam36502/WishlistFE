@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	wishlist "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
@@ -26,6 +27,8 @@ func pgSearch(c echo.Context) error {
 		})
 	}
 	search := c.QueryParam(SEARCH_QUERY_PARAM)
+	search = strings.ToLower(search)
+	search = strings.TrimSpace(search)
 
 	// Search Users
 	ctx := wishlist.DefaultContext()
