@@ -2,6 +2,10 @@ github.com/Sam36502/WishlistLib-go v0.0.0-20211022220504-4dc79bc98599 h1:IrTFXZ/
 github.com/Sam36502/WishlistLib-go v0.0.0-20211022220504-4dc79bc98599/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/Sam36502/WishlistLib-go v0.0.0-20211022222708-5e499089f36c h1:qcI9dKCh3D21R9tIcZmJJ9Y+stE2zCx7pXWbrHHROLo=
 github.com/Sam36502/WishlistLib-go v0.0.0-20211022222708-5e499089f36c/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211025194418-d2d1da6af060 h1:GkssnRDycY25kApsJ0bpnrVBibLLVxmAJxhMjw5LVh0=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211025194418-d2d1da6af060/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211025211315-29abfeaeec97 h1:T9coP8EhJygxmfZuWYILaiFiQ7LRyOO5t8OZEDpq7r0=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211025211315-29abfeaeec97/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -20,10 +24,15 @@ github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24/go.mod h1:M+9NzErvs504Cn4c5DxATwIqPbtswREoFCre64PpcG4=
+github.com/shopspring/decimal v1.3.1 h1:2Usl1nmF/WZucqkFZhnfFYxxxu8LG21F6nPQBE5gKV8=
+github.com/shopspring/decimal v1.3.1/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+github.com/tyler-sommer/stick v1.0.3 h1:7Hjc6l0z/HJiQ60DAXI64fOAQc1+D+x83HR9lgHHq8o=
+github.com/tyler-sommer/stick v1.0.3/go.mod h1:rjBy3zi6GwoxExa6OSRPPPaLqUEKNsBxTeWckhIX1us=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.0.1/go.mod h1:UQGH1tvbgY+Nz5t2n7tXsz52dQxojPUpymEIMZ47gx8=

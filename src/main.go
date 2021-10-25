@@ -6,6 +6,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const (
+	SEARCH_QUERY_PARAM = "s"
+	REDIRECT_CODE      = 308
+)
+
 func main() {
 	e := echo.New()
 	InitRoutes(e)
