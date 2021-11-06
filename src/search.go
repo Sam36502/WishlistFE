@@ -19,14 +19,14 @@ type searchResultData struct {
 func pgSearch(c echo.Context) error {
 
 	// Get Search Query
-	if !c.QueryParams().Has(SEARCH_QUERY_PARAM) {
+	if !c.QueryParams().Has("s") {
 		return c.Render(http.StatusOK, "search", searchResultData{
 			Search:       "",
 			ResultString: "Enter a name above to find friends.",
 			Results:      nil,
 		})
 	}
-	search := c.QueryParam(SEARCH_QUERY_PARAM)
+	search := c.QueryParam("s")
 	search = strings.ToLower(search)
 	search = strings.TrimSpace(search)
 
@@ -34,7 +34,8 @@ func pgSearch(c echo.Context) error {
 	ctx := wishlist.DefaultContext()
 	users, err := ctx.SearchUsers(search)
 	if err != nil {
-		c.Redirect(308, "/err/500.html")
+		// TODO: Get error pages working
+		c.Redirect(http.StatusMovedPermanently, "/err/500.html")
 	}
 
 	resString := strconv.Itoa(len(users)) + " Results:"

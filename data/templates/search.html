@@ -1,9 +1,9 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <form id="search-form" method="get" action="/search" class="f4 f3-ns flex">
+    <form method="get" action="/search" class="f4 f3-ns flex">
         <input type="text" name="s" class="input-reset w-90 ba" value="{{.Search}}">
-        <div class="button-reset bg-black f4 pa2 white bn" onclick="javascript:document.getElementById('search-form').submit();">Search</div>
+        <input type="submit" class="button-reset bg-black f4 pa2 white bn" value="Search">
     </form>
 
     {{if .Results}}

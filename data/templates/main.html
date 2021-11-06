@@ -3,8 +3,8 @@
 {{define "content"}}
     <div class="baskerville tc f-headline ">Wishlist</div>
     <div class="f2">Search for users:</div>
-    <form id="search-form" action="/search" class="f4 f3-ns flex">
+    <form action="/search" class="f4 f3-ns flex">
         <input type="text" name="s" class="input-reset w-90 ba">
-        <div class="button-reset bg-black f4 pa2 white bn" onclick="javascript:document.getElementById('search-form').submit();">Search</div>
+        <input type="submit" class="button-reset bg-black f4 pa2 white bn" value="Search">
     </form>
 {{end}}

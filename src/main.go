@@ -3,16 +3,21 @@ package main
 import (
 	"os"
 
+	wishlistlib "github.com/Sam36502/WishlistLib-go"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
 )
 
-const (
-	SEARCH_QUERY_PARAM = "s"
-	REDIRECT_CODE      = 308
-)
+var CookieStore *sessions.CookieStore
+var Wishlist *wishlistlib.Context
 
 func main() {
+
+	// Initialise Echo Framework
 	e := echo.New()
+	Wishlist = wishlistlib.DefaultContext()
+	Wishlist.BaseUrl = "https://www.pearcenet.ch:2512"
+	InitCookieStore()
 	InitRoutes(e)
 	LoadTemplates(e)
 

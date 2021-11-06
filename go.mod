@@ -3,12 +3,14 @@ module wishlist_fe
 go 1.17
 
 require (
-	github.com/Sam36502/WishlistLib-go v0.0.0-20211025211315-29abfeaeec97
+	github.com/Sam36502/WishlistLib-go v0.0.0-20211106130636-095dc4531a56
 	github.com/labstack/echo/v4 v4.6.1
 )
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/gorilla/sessions v1.2.1 // indirect
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

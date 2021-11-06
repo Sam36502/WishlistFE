@@ -17,18 +17,21 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func LoadTemplates(e *echo.Echo) {
-	m := make(map[string]*template.Template)
+	templates := &Template{make(map[string]*template.Template)}
 
+	templates.load("main")
+	templates.load("search")
+	templates.load("register")
+	templates.load("login")
+	templates.load("userlist")
+
+	e.Renderer = templates
+}
+
+func (t *Template) load(name string) {
 	var err error
-
-	// Add templates here:
-	m["main"], err = template.ParseFiles("data/templates/base.html", "data/templates/main.html")
-	m["search"], err = template.ParseFiles("data/templates/base.html", "data/templates/search.html")
-
+	t.templates[name], err = template.ParseFiles("data/templates/base.html", "data/templates/"+name+".html")
 	if err != nil {
-		fmt.Println("[ERR] Failed to load templates:\n", err)
+		fmt.Printf("[ERROR] Failed to load template '%v'.\n", name)
 	}
-
-	t := &Template{m}
-	e.Renderer = t
 }
