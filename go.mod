@@ -3,7 +3,7 @@ module wishlist_fe
 go 1.17
 
 require (
-	github.com/Sam36502/WishlistLib-go v0.0.0-20211106130636-095dc4531a56
+	github.com/Sam36502/WishlistLib-go v0.0.0-20211106233040-c6df503dba19
 	github.com/labstack/echo/v4 v4.6.1
 )
 

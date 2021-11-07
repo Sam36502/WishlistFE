@@ -1,19 +1,25 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="f2">Log in:</div>
-    <form method="post" action="/search" class="ml4 f4 f3-ns">
-        <div class="mt3">
-            <label for="email-field" class="db f5">E-Mail</label>
-            <input id="email-field" type="text" name="name" class="mv2 input-reset ba" value="{{.User.Email}}">
-            {{if .Error.Email}}
-                <i class="db f5 red">{{.Error.Email}}</i>
+    <div class="f2">{{.User.Name}}'s Wishlist:</div>
+    <table class="f6 f5-ns mt5 w-100 w-80-ns center" cellspacing="0">
+        <thead>
+            <tr class="striped--light-gray">
+                <th class="pa1 pa3-ns">Item Name</th>
+                <th class="pa1 pa3-ns">Item Description</th>
+                <th class="pa1 pa3-ns">Price</th>
+                <th class="pa1 pa3-ns">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Items}}
+            <tr class="striped--light-gray">
+                <td class="pa1 pa3-ns">{{.Name}}</td>
+                <td class="pa1 pa3-ns">{{.Description}}</td>
+                <td class="pa1 pa3-ns">{{.Price}}</td>
+                <td class="pa1 pa3-ns">{{.Status.Name}}</td>
+            </tr>
             {{end}}
-        </div>
-        <div class="mt3">
-            <label for="password-field" class="db f5">Password</label>
-            <input id="password-field" type="password" name="name" class="mv2 input-reset ba">
-        </div>
-        <input type="submit" class="button-reset bg-white dim f5 mt3 pa2 black ba b--black pointer" value="Log in">
-    </form>
+        </tbody>
+    </table>
 {{end}}

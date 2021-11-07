@@ -13,6 +13,7 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/register", pgRegister)
 	e.POST("/register", registerUser)
 	e.GET("/login", pgLogin)
+	e.POST("/login", loginUser)
 	e.GET("/user/:email", pgUserList)
 
 	e.File("/favicon.ico", "data/img/favicon.ico")

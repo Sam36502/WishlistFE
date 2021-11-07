@@ -8,6 +8,8 @@ github.com/Sam36502/WishlistLib-go v0.0.0-20211025211315-29abfeaeec97 h1:T9coP8E
 github.com/Sam36502/WishlistLib-go v0.0.0-20211025211315-29abfeaeec97/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/Sam36502/WishlistLib-go v0.0.0-20211106130636-095dc4531a56 h1:xKi9X7SdEcNF3U3F8aG17x6cw2LhJG2IGrfj5pRzCuQ=
 github.com/Sam36502/WishlistLib-go v0.0.0-20211106130636-095dc4531a56/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211106233040-c6df503dba19 h1:gXRJONGiDszWf1GDfyZgv4RitV+kZQKXcWCTTsEyLLU=
+github.com/Sam36502/WishlistLib-go v0.0.0-20211106233040-c6df503dba19/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

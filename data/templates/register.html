@@ -12,7 +12,7 @@
         </div>
         <div class="mt3">
             <label for="email-field" class="db f5">E-Mail</label>
-            <input id="email-field" type="text" name="email" class="mv2 input-reset ba" value="{{.User.Email}}">
+            <input id="email-field" type="email" name="email" class="mv2 input-reset ba" value="{{.User.Email}}">
             {{if .Error.Email}}
                 <i class="db f5 red">{{.Error.Email}}</i>
             {{end}}
