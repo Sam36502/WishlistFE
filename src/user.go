@@ -43,6 +43,13 @@ func pgRegister(c echo.Context) error {
 			}
 		}
 	}
+	session.Options.MaxAge = -1
+	err = session.Save(c.Request(), c.Response())
+	if err != nil {
+		// TODO: Get error handling sorted
+		fmt.Println("[ERROR] Failed to save session:\n ", err)
+		return c.Redirect(http.StatusMovedPermanently, "/err/500.html")
+	}
 
 	return c.Render(http.StatusOK, "register", data)
 }
@@ -92,17 +99,20 @@ func registerUser(c echo.Context) error {
 		hasError = true
 	}
 
-	// Register the User
-	user := wishlistlib.User{
-		Name:  formUser.Name,
-		Email: formUser.Email,
-	}
-	user.SetPassword(formUser.Password)
-	user, err = Wishlist.AddNewUser(user)
-	if err != nil {
-		hasError = true
-		if _, ok := err.(wishlistlib.EmailExistsError); ok {
-			formError.Email = "This Email is already in use"
+	var user wishlistlib.User
+	if !hasError {
+		// Register the User
+		user = wishlistlib.User{
+			Name:  formUser.Name,
+			Email: formUser.Email,
+		}
+		user.SetPassword(formUser.Password)
+		user, err = Wishlist.AddNewUser(user)
+		if err != nil {
+			hasError = true
+			if _, ok := err.(wishlistlib.EmailExistsError); ok {
+				formError.Email = "This Email is already in use"
+			}
 		}
 	}
 
@@ -136,6 +146,13 @@ func pgLogin(c echo.Context) error {
 				data.User = formUsr
 			}
 		}
+	}
+	session.Options.MaxAge = -1
+	err = session.Save(c.Request(), c.Response())
+	if err != nil {
+		// TODO: Get error handling sorted
+		fmt.Println("[ERROR] Failed to save session:\n ", err)
+		return c.Redirect(http.StatusMovedPermanently, "/err/500.html")
 	}
 
 	return c.Render(http.StatusOK, "login", data)
