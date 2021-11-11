@@ -1,3 +1,10 @@
+/*
+ *		SEARCH
+ *
+ *		All functions pertaining to searching for users
+ *
+ */
+
 package main
 
 import (

@@ -3,20 +3,23 @@ package main
 import (
 	"os"
 
-	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
 )
 
+const (
+	WISHLIST_BASE_URL = "https://www.pearcenet.ch:2512"
+	COOKIE_TIMEOUT    = 60 * 60     // User data cookie expires after one hour
+	COOKIE_FORM_DATA  = "form-data" // Cookie name for sending error information to form pages
+	COOKIE_USER_DATA  = "user-data" // Cookie name for user login data
+)
+
 var CookieStore *sessions.CookieStore
-var Wishlist *wishlistlib.Context
 
 func main() {
 
 	// Initialise Echo Framework
 	e := echo.New()
-	Wishlist = wishlistlib.DefaultContext()
-	Wishlist.BaseUrl = "https://www.pearcenet.ch:2512"
 	InitCookieStore()
 	InitRoutes(e)
 	LoadTemplates(e)

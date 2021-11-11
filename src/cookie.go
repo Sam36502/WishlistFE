@@ -7,6 +7,11 @@ import (
 	"github.com/gorilla/sessions"
 )
 
+type CookieUser struct {
+	Email    string
+	Password string
+}
+
 func InitCookieStore() {
 	// Initialise Cookie Store
 	authKeyOne := securecookie.GenerateRandomKey(64)
@@ -19,11 +24,12 @@ func InitCookieStore() {
 
 	CookieStore.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   60 * 15,
+		MaxAge:   0,
 		HttpOnly: false,
 	}
 
 	// Register Session Types
 	gob.Register(FormError{})
 	gob.Register(FormUser{})
+	gob.Register(CookieUser{})
 }

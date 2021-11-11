@@ -24,6 +24,7 @@ func LoadTemplates(e *echo.Echo) {
 	templates.load("register")
 	templates.load("login")
 	templates.load("userlist")
+	templates.load("register_succ")
 
 	e.Renderer = templates
 }
