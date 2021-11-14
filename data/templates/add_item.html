@@ -2,36 +2,35 @@
 
 {{define "content"}}
     <div class="f2">Add Item:</div>
-    <form id="new_item_form" method="post" action="/login" class="ml4 f4 f3-ns">
+    <form id="new_item_form" method="post" action="/user/{{.User.Email}}/newitem" class="ml4 f4 f3-ns">
         <div class="mt3">
-            <label for="email-field" class="db f5">E-Mail</label>
-            <input id="email-field" type="email" name="email" class="mv2 input-reset ba" value="{{.User.Email}}">
-            {{if .Error.Email}}
-                <i class="db f5 red">{{.Error.Email}}</i>
+            <label for="name-field" class="db f5">Item Name</label>
+            <input id="name-field" type="text" name="name" class="mv2 input-reset ba" value="{{.Item.Name}}">
+            {{if .Error.Name}}
+                <i class="db f5 red">{{.Error.Name}}</i>
             {{end}}
         </div>
         <div class="mt3">
-            <label for="password-field" class="db f5">Password</label>
-            <input id="password-field" type="password" name="password" class="mv2 input-reset ba">
+            <label for="desc-field" class="db f5">Item Description</label>
+            <div class="f6 gray">Optional</div>
+            <input id="desc-field" type="text" name="desc" class="mv2 input-reset ba" value="{{.Item.Description}}">
         </div>
-        {{if .Error.Password}}
-            <i class="db f5 red">{{.Error.Password}}</i>
-        {{end}}
         <div class="mt3">
-            <label class="db f5"><input type="checkbox" name="stay-logged-in"> Keep me logged in</label>
+            <label for="price-field" class="db f5">Price in CHF (More flexible price options soon...)</label>
+            <input id="price-field" type="number" name="price" class="mv2 input-reset ba" value="{{.Item.Price}}">
+            {{if .Error.Price}}
+                <i class="db f5 red">{{.Error.Price}}</i>
+            {{end}}
         </div>
-        <input type="submit" class="button-reset bg-white dim f5 mt3 pa2 black ba b--black pointer" value="Log in">
+        <div class="mt3">
+            <label class="db f5">Link to where this item can be found</label>
+            <div class="f6 gray">Optional</div>
+            <input type="text" name="link-text" class="mv2 input-reset ba" value="{{ (index .Item.Links 0).Text }}">
+            <input type="text" name="link-url" class="mv2 input-reset ba" value="{{ (index .Item.Links 0).URL }}"><br>
+            {{if .Error.Link}}
+                <i class="db f5 red">{{.Error.Link}}</i>
+            {{end}}
+        </div>
+        <input type="submit" class="button-reset bg-white dim f5 mt3 pa2 black ba b--black pointer" value="Add Item">
     </form>
-    
-    <button class="button-reset bg-black white" onclick="add_field()">Moar Limk</button>
-    <script>
-        function add_field(){
-            var x = document.getElementById("new_item_form");
-            var new_field = document.createElement("input");
-            new_field.setAttribute("type", "text");
-            new_field.setAttribute("name", "text_field[]");
-            var pos = x.childElementCount;
-            x.insertBefore(new_field, x.childNodes[pos]);
-        }
-    </script>
 {{end}}

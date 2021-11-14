@@ -13,10 +13,10 @@
         <div class="mt3">
             <label for="password-field" class="db f5">Password</label>
             <input id="password-field" type="password" name="password" class="mv2 input-reset ba">
+            {{if .Error.Password}}
+                <i class="db f5 red">{{.Error.Password}}</i>
+            {{end}}
         </div>
-        {{if .Error.Password}}
-            <i class="db f5 red">{{.Error.Password}}</i>
-        {{end}}
         <div class="mt3">
             <label class="db f5"><input type="checkbox" name="stay-logged-in"> Keep me logged in</label>
         </div>

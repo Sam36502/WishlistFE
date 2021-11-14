@@ -29,6 +29,7 @@ func InitRoutes(e *echo.Echo) {
 	// Item Routes
 	e.GET("/item/:item_id", handlers.PgItem)
 	e.GET("/user/:email/newitem", handlers.PgNewItem)
+	e.POST("/user/:email/newitem", handlers.NewItem)
 
 }
 
