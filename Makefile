@@ -46,8 +46,8 @@ up: down image-clean
 ## Stops the docker-compose cluster
 down:
 	@echo "### Stopping Container ###"
-	@docker stop ${CONTAINER_NAME}
-	@docker rm ${CONTAINER_NAME}
+	@-docker stop ${CONTAINER_NAME}
+	@-docker rm ${CONTAINER_NAME}
 
 ## Connects to api container
 bash-api:
