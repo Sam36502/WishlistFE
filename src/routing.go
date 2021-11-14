@@ -2,29 +2,33 @@ package main
 
 import (
 	"net/http"
+	"wishlist_fe/src/handlers"
 
 	"github.com/labstack/echo/v4"
 )
 
 func InitRoutes(e *echo.Echo) {
 
-	e.GET("/", pgMain)
+	e.GET("/", PgMain)
+	e.File("/favicon.ico", "data/img/favicon.ico")
 
 	// User Routes
-	e.GET("/search", pgSearch)
+	e.GET("/search", handlers.PgSearch)
 
-	e.GET("/register", pgRegister)
-	e.POST("/register", registerUser)
-	e.GET("/registersuccess", pgRegisterSuccess)
+	e.GET("/register", handlers.PgRegister)
+	e.POST("/register", handlers.RegisterUser)
+	e.GET("/registersuccess", handlers.PgRegisterSuccess)
 
-	e.GET("/login", pgLogin)
-	e.POST("/login", loginUser)
+	e.GET("/login", handlers.PgLogin)
+	e.POST("/login", handlers.LoginUser)
 
-	e.GET("/user/:email", pgUserList)
-	e.GET("/user/:email/delete", pgDeleteUser)
-	e.POST("/user/:email/delete", deleteUser)
+	e.GET("/user/:email", handlers.PgUserList)
+	e.GET("/user/:email/delete", handlers.PgDeleteUser)
+	e.POST("/user/:email/delete", handlers.DeleteUser)
 
-	e.File("/favicon.ico", "data/img/favicon.ico")
+	// Item Routes
+	e.GET("/item/:item_id", handlers.PgItem)
+	e.GET("/user/:email/newitem", handlers.PgNewItem)
 
 }
 
@@ -33,6 +37,6 @@ type Data struct {
 	System   string
 }
 
-func pgMain(c echo.Context) error {
+func PgMain(c echo.Context) error {
 	return c.Render(http.StatusOK, "main", nil)
 }
