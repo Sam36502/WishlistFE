@@ -111,28 +111,30 @@ func NewItem(c echo.Context) error {
 	}
 
 	// Add item
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
-	wish.SetAuthenticatedUser(liUser)
-	_, err = wish.AddItemToAuthenticatedUserList(wishlistlib.Item{
-		Name:        formItem.Name,
-		Description: formItem.Description,
-		Price:       float32(price), // parsed above
-		Status:      wishlistlib.Status{StatusID: 1},
-		Links: []wishlistlib.Link{
-			{
-				Text: formItem.LinkText,
-				URL:  formItem.LinkURL,
+	if !hasError {
+		wish := wishlistlib.Context{
+			BaseUrl: inf.WISHLIST_BASE_URL,
+		}
+		wish.SetAuthenticatedUser(liUser)
+		_, err = wish.AddItemToAuthenticatedUserList(wishlistlib.Item{
+			Name:        formItem.Name,
+			Description: formItem.Description,
+			Price:       float32(price), // parsed above
+			Status:      wishlistlib.Status{StatusID: 1},
+			Links: []wishlistlib.Link{
+				{
+					Text: formItem.LinkText,
+					URL:  formItem.LinkURL,
+				},
 			},
-		},
-	})
-	if err != nil {
-		hasError = true
-		fmt.Println("[ERROR] Failed to add the item to the database:\n ", err)
+		})
+		if err != nil {
+			hasError = true
+			fmt.Println("[ERROR] Failed to add the item to the database:\n ", err)
 
-		if _, ok := err.(wishlistlib.PriceOutOfRangeError); ok {
-			formError.Price = "Price was out of range"
+			if _, ok := err.(wishlistlib.PriceOutOfRangeError); ok {
+				formError.Price = "Price was out of range"
+			}
 		}
 	}
 
