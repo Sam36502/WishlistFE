@@ -32,8 +32,17 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/user/:email/newitem", handlers.PgNewItem)
 	e.POST("/user/:email/newitem", handlers.NewItem)
 
-	e.GET("/user/:email/delitem/:item_id", handlers.PgDelItem)
-	e.POST("/user/:email/delitem/:item_id", handlers.DelItem)
+	e.GET("/user/:email/:item_id/delete", handlers.PgDelItem)
+	e.POST("/user/:email/:item_id/delete", handlers.DelItem)
+
+	e.GET("/user/:email/item/:item_id/reserve", handlers.PgReserveItem)
+	e.POST("/user/:email/item/:item_id/reserve", handlers.ReserveItem)
+	e.GET("/user/:email/item/:item_id/unreserve", handlers.PgUnreserveItem)
+	e.POST("/user/:email/item/:item_id/unreserve", handlers.UnreserveItem)
+	e.GET("/user/:email/item/:item_id/receive", handlers.PgReceiveItem)
+	e.POST("/user/:email/item/:item_id/receive", handlers.ReceiveItem)
+	e.GET("/user/:email/item/:item_id/unreceive", handlers.PgUnReceiveItem)
+	e.POST("/user/:email/item/:item_id/unreceive", handlers.UnReceiveItem)
 
 }
 

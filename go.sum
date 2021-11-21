@@ -10,6 +10,16 @@ github.com/Sam36502/WishlistLib-go v0.0.0-20211120224100-59756a3c8268 h1:zuyh4Z+
 github.com/Sam36502/WishlistLib-go v0.0.0-20211120224100-59756a3c8268/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/Sam36502/WishlistLib-go v0.1.1-beta h1:45jFUYdBR5/179gyxnR22y6WVJP0yxWphxeHi0gYoqA=
 github.com/Sam36502/WishlistLib-go v0.1.1-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.1.2-beta h1:vhE6H1FfUkIXZIvaykN9POjMxQ2rrr3AKoHtoP8Drr4=
+github.com/Sam36502/WishlistLib-go v0.1.2-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.2.0-beta h1:tt1MacS2+kh86LuiLYNDs2B2rtpwv2bTGxrVMcSzPfg=
+github.com/Sam36502/WishlistLib-go v0.2.0-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.2.1-beta h1:rahScH+QzQvqfRSfQr7Vc6vZhu5IY5uD4OBOR3rWhFA=
+github.com/Sam36502/WishlistLib-go v0.2.1-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.3.0-beta h1:jQZVTw0yF3gyRJUaQBUR/t0wjJj7RhgO/mslMoN48E4=
+github.com/Sam36502/WishlistLib-go v0.3.0-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
+github.com/Sam36502/WishlistLib-go v0.3.1-beta h1:ap8HwSc9CbyBGc5R0Uy322rCDozxIZ7PdUiWv4QYzqk=
+github.com/Sam36502/WishlistLib-go v0.3.1-beta/go.mod h1:PhMeNjtYrULFt9bNZXx6KunZrb4O8GpJ4lRWkMj6S2Q=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

@@ -17,32 +17,20 @@ func PgDelItem(c echo.Context) error {
 	}
 
 	// Get item info
-	var item_id uint64
-	var err error
-	if item_id_str := c.Param("item_id"); item_id_str == "" {
-		return echo.ErrNotFound
-	} else {
-		item_id, err = strconv.ParseUint(item_id_str, 10, 64)
-		if err != nil {
-			return echo.ErrNotFound
-		}
-	}
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
-	item, err := wish.GetItemByID(item_id)
+	item, err := inf.GetItemFromPath(c)
 	if err != nil {
-		return echo.ErrNotFound
+		return err
 	}
 
-	return c.Render(http.StatusOK, "del_item", struct {
-		YesURL string
-		NoURL  string
-		Item   wishlistlib.Item
-	}{
-		YesURL: "/user/" + email + "/delitem/" + strconv.FormatUint(item_id, 10),
-		NoURL:  "/user/" + email + "/item/" + strconv.FormatUint(item_id, 10),
-		Item:   item,
+	return c.Render(http.StatusOK, "confirm", inf.ConfirmPageData{
+		MainTitle:       "Deleting " + item.Name + "...",
+		MainDescription: "Are you sure you want to delete this item?",
+		YesColour:       "red",
+		YesText:         "Yes, delete this item permanently",
+		YesURL:          "/user/" + email + "/item/" + strconv.FormatUint(item.ItemID, 10) + "/delete",
+		NoColour:        "gray",
+		NoText:          "No, don't delete it",
+		NoURL:           "/user/" + email + "/item/" + strconv.FormatUint(item.ItemID, 10),
 	})
 }
 

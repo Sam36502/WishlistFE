@@ -23,10 +23,19 @@
 
     <div class="flex flex-column">
         {{if .LoggedIn}}
-            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{.Email}}/delitem/{{.Item.ItemID}}">Delete Item</a>
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{.Email}}/item/{{.Item.ItemID}}/delete">Delete Item</a>
         {{end}}
         {{if .CanReserve}}
-            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba gold hover-white hover-bg-gold" href="/user/{{.Email}}/reserve/{{.Item.ItemID}}">Reserve Item</a>
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba gold hover-white hover-bg-gold" href="/user/{{.Email}}/item/{{.Item.ItemID}}/reserve">Reserve Item</a>
+        {{end}}
+        {{if .CanUnreserve}}
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{.Email}}/item/{{.Item.ItemID}}/unreserve">Remove Reservation</a>
+        {{end}}
+        {{if .CanReceive}}
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba green hover-white hover-bg-green" href="/user/{{.Email}}/item/{{.Item.ItemID}}/receive">Mark Item as received</a>
+        {{end}}
+        {{if .CanUnreceive}}
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{.Email}}/item/{{.Item.ItemID}}/unreceive">Mark Item as not received</a>
         {{end}}
 
         <a class="f4 link w-30-ns w-100 mt3 ph2 pv1 ba black dim" href="/user/{{.Email}}">To User's Wishlist →</a>

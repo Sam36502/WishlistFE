@@ -9,7 +9,6 @@ import (
 )
 
 func PgItem(c echo.Context) error {
-
 	email := c.Param("email")
 	if email == "" {
 		return echo.ErrNotFound
@@ -18,34 +17,51 @@ func PgItem(c echo.Context) error {
 	// Get Item information
 	item, err := inf.GetItemFromPath(c)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	// Check if currently logged in as this user
+	loggedInHere := false
 	loggedIn := false
 	liUser, err := inf.GetLoggedInUser(c)
 	if err == nil {
-		loggedIn = liUser.Email == email
+		loggedIn = true
+		loggedInHere = liUser.Email == email
 	}
 
 	// Check if user can reserve this item
-	canReserve := !loggedIn && item.Status.StatusID == 1
+	canReserve := loggedIn && !loggedInHere && item.Status.StatusID == 1
+
+	// Check if user can unreserve this item
+	canUnreserve := loggedIn && item.ReservedByUser.Email == liUser.Email && item.Status.StatusID == 2
 
 	// Check if user can see the status of this item
-	canSeeStatus := !loggedIn || item.Status.StatusID == 3
+	canSeeStatus := !loggedInHere || item.Status.StatusID == 3
+
+	// Check if user can mark item as received
+	canReceive := loggedInHere && item.Status.StatusID != 3
+
+	// Check if user can unreceive item
+	canUnreceive := loggedInHere && item.Status.StatusID == 3
 
 	return c.Render(http.StatusOK, "item", struct {
 		Item         wishlistlib.Item
 		LoggedIn     bool
 		CanSeeStatus bool
 		CanReserve   bool
+		CanUnreserve bool
+		CanReceive   bool
+		CanUnreceive bool
 		StatusColour string
 		Email        string
 	}{
 		Item:         item,
-		LoggedIn:     loggedIn,
+		LoggedIn:     loggedInHere,
 		CanSeeStatus: canSeeStatus,
 		CanReserve:   canReserve,
+		CanUnreserve: canUnreserve,
+		CanReceive:   canReceive,
+		CanUnreceive: canUnreceive,
 		StatusColour: inf.GetStatusColour(item.Status),
 		Email:        email,
 	})

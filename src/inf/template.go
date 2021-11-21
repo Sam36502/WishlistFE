@@ -32,7 +32,7 @@ func LoadTemplates(e *echo.Echo) {
 	templates.load("status")
 	templates.load("item")
 	templates.load("add_item")
-	templates.load("del_item")
+	templates.load("confirm")
 
 	e.Renderer = templates
 }
@@ -40,8 +40,9 @@ func LoadTemplates(e *echo.Echo) {
 func (t *Template) load(name string) {
 	var err error
 	t.templates[name], err = template.ParseFiles("data/templates/base.html", "data/templates/"+name+".html")
+
 	if err != nil {
-		fmt.Printf("[ERROR] Failed to load template '%v'.\n", name)
+		fmt.Printf("[ERROR] Failed to load template '%v':\n%v", name, err)
 	}
 }
 

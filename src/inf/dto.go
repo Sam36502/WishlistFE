@@ -42,3 +42,14 @@ type StatusPageData struct {
 	NextPageURL     string
 	NextPageMessage string
 }
+
+type ConfirmPageData struct {
+	MainTitle       string
+	MainDescription string
+	YesURL          string
+	YesColour       string
+	YesText         string
+	NoURL           string
+	NoColour        string
+	NoText          string
+}
