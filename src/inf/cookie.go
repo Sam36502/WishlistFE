@@ -14,6 +14,7 @@ const (
 )
 
 type CookieUser struct {
+	ID       uint64
 	Email    string
 	Password string
 }
@@ -37,7 +38,9 @@ func InitCookieStore() {
 	}
 
 	// Register Session Types
-	gob.Register(FormError{})
+	gob.Register(UserFormError{})
 	gob.Register(FormUser{})
+	gob.Register(ItemFormError{})
+	gob.Register(FormItem{})
 	gob.Register(CookieUser{})
 }

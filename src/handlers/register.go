@@ -22,12 +22,12 @@ func PgRegister(c echo.Context) error {
 	// Check for data
 	data := new(struct {
 		User  inf.FormUser
-		Error inf.FormError
+		Error inf.UserFormError
 	})
 	session, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_FORM_DATA)
 	if err == nil {
 		if e := session.Values["error"]; e != nil {
-			if formErr, ok := e.(inf.FormError); ok {
+			if formErr, ok := e.(inf.UserFormError); ok {
 				data.Error = formErr
 			}
 		}
@@ -64,11 +64,11 @@ func RegisterUser(c echo.Context) error {
 		return echo.ErrInternalServerError
 	}
 	session.Values["user"] = formUser
-	session.Values["error"] = new(inf.FormError)
+	session.Values["error"] = new(inf.UserFormError)
 
 	// Input Validation
 	hasError := false
-	formError := new(inf.FormError)
+	formError := new(inf.UserFormError)
 
 	// Check all fields were filled
 	if formUser.Name == "" {
@@ -128,5 +128,10 @@ func RegisterUser(c echo.Context) error {
 
 // The page displayed when the user successfully registers their user
 func PgRegisterSuccess(c echo.Context) error {
-	return c.Render(http.StatusOK, "register_succ", nil)
+	return c.Render(http.StatusOK, "status", inf.StatusPageData{
+		Colour:          "green",
+		MainMessage:     "New user successfully registered!",
+		NextPageURL:     "/login",
+		NextPageMessage: "Continue to login",
+	})
 }

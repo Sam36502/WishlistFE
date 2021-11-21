@@ -1,0 +1,43 @@
+{{template "base" .}}
+
+{{define "content"}}
+    <div class="f2">{{.User.Name}}'s Wishlist:</div>
+    <div class="fl w-100 w-20-ns">
+        <div class="f5 mt4">Sort/Filter List</div>
+        <div class="f6">Coming Soon...</div>
+
+        {{if .LoggedIn}}
+        <a class="f6 link dim ba ph3 pv2 ma2 mt4 db green" href="/user/{{.User.Email}}/newitem">Add Item</a>
+        <a class="f6 link ba ph3 pv2 ma2 db gray" href="#">User Settings (Coming Soon...)</a>
+        {{end}}
+    </div>
+    {{if not .Items}}
+    <div class="fl f6 f5-ns pv7 w-100 w-80-ns bg-near-white">
+        <div class="f3 tc">No Items</div>
+    </div>
+    {{else}}
+    <table class="fl f6 f5-ns w-100 w-80-ns" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="pa1 pa3-ns bb">Item Name</th>
+                <th class="pa1 pa3-ns bb">Item Description</th>
+                <th class="pa1 pa3-ns bb">Price</th>
+                <th class="pa1 pa3-ns bb">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Items}}
+            <tr class="hover-bg-near-white">
+                <td class="pa1 pa3-ns">{{.Name}}</td>
+                <td class="pa1 pa3-ns">{{.Description}}</td>
+                <td class="pa1 pa3-ns">{{.Price}}</td>
+                <td class="pa1 pa3-ns">{{.Status.Name}}</td>
+                {{if $.LoggedIn}}
+                <td class="pa1 pa3-ns"><a class="f4 link ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{$.User.Email}}/delitem/{{.ItemID}}">🞩</a></td>
+                {{end}}
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{end}}
+{{end}}

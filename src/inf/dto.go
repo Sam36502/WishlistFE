@@ -16,8 +16,29 @@ type FormUser struct {
 	StayLoggedIn    string `form:"stay-logged-in"`
 }
 
-type FormError struct {
+type FormItem struct {
+	Name        string `form:"name"`
+	Description string `form:"desc"`
+	Price       string `form:"price"`
+	LinkText    string `form:"link-text"`
+	LinkURL     string `form:"link-url"`
+}
+
+type UserFormError struct {
 	Name     string
 	Email    string
 	Password string
+}
+
+type ItemFormError struct {
+	Name  string
+	Price string
+	Link  string
+}
+
+type StatusPageData struct {
+	Colour          string
+	MainMessage     string
+	NextPageURL     string
+	NextPageMessage string
 }

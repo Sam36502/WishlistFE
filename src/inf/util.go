@@ -41,6 +41,7 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, error) {
 	}
 
 	user := wishlistlib.User{
+		ID:    cookieUser.ID,
 		Email: cookieUser.Email,
 	}
 	user.SetPassword(cookieUser.Password)

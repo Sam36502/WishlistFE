@@ -13,6 +13,10 @@ type Template struct {
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	if _, ok := t.templates[name]; !ok {
+		return NoTemplateError(name)
+	}
+
 	return template.Must(t.templates[name], nil).Execute(w, data)
 }
 
@@ -24,10 +28,11 @@ func LoadTemplates(e *echo.Echo) {
 	templates.load("search")
 	templates.load("register")
 	templates.load("login")
-	templates.load("userlist")
-	templates.load("register_succ")
+	templates.load("user_list")
+	templates.load("status")
 	templates.load("item")
 	templates.load("add_item")
+	templates.load("del_item")
 
 	e.Renderer = templates
 }
@@ -38,4 +43,10 @@ func (t *Template) load(name string) {
 	if err != nil {
 		fmt.Printf("[ERROR] Failed to load template '%v'.\n", name)
 	}
+}
+
+type NoTemplateError string
+
+func (e NoTemplateError) Error() string {
+	return fmt.Sprintf("The template '%v' has not been registered.", string(e))
 }

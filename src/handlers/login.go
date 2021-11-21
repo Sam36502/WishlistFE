@@ -23,12 +23,12 @@ func PgLogin(c echo.Context) error {
 	// Check for data
 	data := new(struct {
 		User  inf.FormUser
-		Error inf.FormError
+		Error inf.UserFormError
 	})
 	session, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_FORM_DATA)
 	if err == nil {
 		if e := session.Values["error"]; e != nil {
-			if formErr, ok := e.(inf.FormError); ok {
+			if formErr, ok := e.(inf.UserFormError); ok {
 				data.Error = formErr
 			}
 		}
@@ -64,11 +64,11 @@ func LoginUser(c echo.Context) error {
 		return echo.ErrInternalServerError
 	}
 	session.Values["user"] = formUser
-	session.Values["error"] = new(inf.FormError)
+	session.Values["error"] = new(inf.UserFormError)
 
 	// Input Validation
 	hasError := false
-	formError := new(inf.FormError)
+	formError := new(inf.UserFormError)
 
 	// Check all fields were filled
 	if formUser.Password == "" {
@@ -76,21 +76,19 @@ func LoginUser(c echo.Context) error {
 		formError.Password = "Password & confirmation are required"
 	}
 
-	// Check Email is Valid
-	if !inf.IsEmailValid(formUser.Email) {
+	wish := wishlistlib.Context{
+		BaseUrl: inf.WISHLIST_BASE_URL,
+	}
+
+	// Get User to log in
+	user, err := wish.GetUserByEmail(formUser.Email)
+	if err != nil {
 		formError.Email = "Please use a valid E-Mail address"
 		hasError = true
 	}
 
 	// Log user in
-	user := wishlistlib.User{
-		Email: formUser.Email,
-	}
 	user.SetPassword(formUser.Password)
-
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
 	wish.SetAuthenticatedUser(user)
 
 	// Check Login
@@ -107,6 +105,7 @@ func LoginUser(c echo.Context) error {
 		return echo.ErrInternalServerError
 	}
 	userData.Values["user"] = inf.CookieUser{
+		ID:       user.ID,
 		Email:    user.Email,
 		Password: formUser.Password,
 	}

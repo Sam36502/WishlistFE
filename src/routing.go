@@ -31,6 +31,9 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/user/:email/newitem", handlers.PgNewItem)
 	e.POST("/user/:email/newitem", handlers.NewItem)
 
+	e.GET("/user/:email/delitem/:item_id", handlers.PgDelItem)
+	e.POST("/user/:email/delitem/:item_id", handlers.DelItem)
+
 }
 
 type Data struct {

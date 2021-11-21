@@ -17,7 +17,7 @@
         </div>
         <div class="mt3">
             <label for="price-field" class="db f5">Price in CHF (More flexible price options soon...)</label>
-            <input id="price-field" type="number" name="price" class="mv2 input-reset ba" value="{{.Item.Price}}">
+            <input id="price-field" type="text" name="price" class="mv2 input-reset ba" value="{{.Item.Price}}">
             {{if .Error.Price}}
                 <i class="db f5 red">{{.Error.Price}}</i>
             {{end}}
@@ -25,8 +25,8 @@
         <div class="mt3">
             <label class="db f5">Link to where this item can be found</label>
             <div class="f6 gray">Optional</div>
-            <input type="text" name="link-text" class="mv2 input-reset ba" value="{{ (index .Item.Links 0).Text }}">
-            <input type="text" name="link-url" class="mv2 input-reset ba" value="{{ (index .Item.Links 0).URL }}"><br>
+            <input type="text" name="link-text" class="mv2 input-reset ba" value="{{.Item.LinkText}}" placeholder="Link Text">
+            <input type="text" name="link-url" class="mv2 input-reset ba" value="{{.Item.LinkURL}}" placeholder="Link URL"><br>
             {{if .Error.Link}}
                 <i class="db f5 red">{{.Error.Link}}</i>
             {{end}}
