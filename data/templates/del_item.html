@@ -4,6 +4,6 @@
     <div class="f2">Deleting {{.Item.Name}}:</div>
     <div class="f4">Are you sure you want to delete this item?</div>
 
-    <form action="{{.YesURL}}" method="post"><input type="submit" class="f6 w-20 input-reset bg-white dim ba ph3 pv2 ma2 mt4 db red b--red" value="Yes, delete this item permanently"></form>
-    <a class="f6 w-20 link ba ph3 pv2 ma2 db gray" href="{{.NoURL}}">No, don't delete it</a>
+    <form action="{{.YesURL}}" method="post"><input type="submit" class="f6 w-20-ns w-100 input-reset bg-white dim ba ph3 pv2 ma2 mt4 db red b--red" value="Yes, delete this item permanently"></form>
+    <a class="f6 w-20-ns w-100 link ba ph3 pv2 ma2 db gray tc" href="{{.NoURL}}">No, don't delete it</a>
 {{end}}
