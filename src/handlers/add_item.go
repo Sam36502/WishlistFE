@@ -18,7 +18,7 @@ func PgNewItem(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
-	// Check for data
+	// Check for form errors and/or retained values
 	data := new(struct {
 		User  struct{ Email string }
 		Item  inf.FormItem

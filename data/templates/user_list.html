@@ -22,20 +22,15 @@
                 <th class="pa1 pa3-ns bb">Item Name</th>
                 <th class="pa1 pa3-ns bb">Item Description</th>
                 <th class="pa1 pa3-ns bb">Price</th>
-                <th class="pa1 pa3-ns bb">Status</th>
             </tr>
         </thead>
         <tbody>
             {{range .Items}}
-            <tr class="hover-bg-near-white">
-                <td class="pa1 pa3-ns">{{.Name}}</td>
-                <td class="pa1 pa3-ns">{{.Description}}</td>
-                <td class="pa1 pa3-ns">{{.Price}}</td>
-                <td class="pa1 pa3-ns">{{.Status.Name}}</td>
-                {{if $.LoggedIn}}
-                <td class="pa1 pa3-ns"><a class="f4 link ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{$.User.Email}}/delitem/{{.ItemID}}">✕</a></td>
-                {{end}}
-            </tr>
+                <tr class="hover-bg-near-white" onclick="window.location='/user/{{$.User.Email}}/item/{{.ItemID}}';">
+                    <td class="pa1 pa3-ns">{{.Name}}</td>
+                    <td class="pa1 pa3-ns">{{.Description}}</td>
+                    <td class="pa1 pa3-ns">{{.Price}}</td>
+                </tr>
             {{end}}
         </tbody>
     </table>

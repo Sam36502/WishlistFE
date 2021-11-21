@@ -1,5 +1,34 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="f2">Item Page WIP</div>
+    <div class="f2 mt3">{{.Item.Name}}</div>
+    <div class="f5 mt2">
+        {{.Item.Description}}
+    </div>
+    <div class="f4 mt3">Status:</div>
+    {{if .CanSeeStatus}}
+        <div class="w-20-ns w-100 pa3 bg-{{.StatusColour}} tc">{{.Item.Status.Name}}</div>
+    {{else}}
+        <div class="w-20-ns w-100 pa3 bg-near-white tc">REDACTED</div>
+    {{end}}
+
+    <div class="f4 mt3">Price: CHF {{.Item.Price}}</div>
+
+    <div class="f4 mt3">Links:</div>
+    <ul>
+        {{range .Item.Links}}
+            <li><a class="link" href="{{.URL}}">{{.Text}}</a></li>
+        {{end}}
+    </ul>
+
+    <div class="flex flex-column">
+        {{if .LoggedIn}}
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba red hover-white hover-bg-red" href="/user/{{.Email}}/delitem/{{.Item.ItemID}}">Delete Item</a>
+        {{end}}
+        {{if .CanReserve}}
+            <a class="f4 link w-30-ns w-100 mt2 ph2 pv1 ba gold hover-white hover-bg-gold" href="/user/{{.Email}}/reserve/{{.Item.ItemID}}">Reserve Item</a>
+        {{end}}
+
+        <a class="f4 link w-30-ns w-100 mt3 ph2 pv1 ba black dim" href="/user/{{.Email}}">To User's Wishlist →</a>
+    </div>
 {{end}}

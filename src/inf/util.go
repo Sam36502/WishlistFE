@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strconv"
 
 	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
@@ -47,4 +48,42 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, error) {
 	user.SetPassword(cookieUser.Password)
 
 	return user, nil
+}
+
+// Gets all item data based on the "item_id" path parameter
+func GetItemFromPath(c echo.Context) (wishlistlib.Item, error) {
+	var item_id uint64
+	var err error
+	if item_id_str := c.Param("item_id"); item_id_str == "" {
+		return wishlistlib.Item{}, echo.ErrNotFound
+	} else {
+		item_id, err = strconv.ParseUint(item_id_str, 10, 64)
+		if err != nil {
+			return wishlistlib.Item{}, echo.ErrNotFound
+		}
+	}
+	wish := wishlistlib.Context{
+		BaseUrl: WISHLIST_BASE_URL,
+	}
+	item, err := wish.GetItemByID(item_id)
+	if err != nil {
+		return wishlistlib.Item{}, echo.ErrNotFound
+	}
+
+	return item, nil
+}
+
+func GetStatusColour(s wishlistlib.Status) string {
+	switch s.StatusID {
+
+	default:
+		fallthrough
+	case 1:
+		return "near-white"
+	case 2:
+		return "gold"
+	case 3:
+		return "green"
+
+	}
 }

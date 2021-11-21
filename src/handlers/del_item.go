@@ -41,7 +41,7 @@ func PgDelItem(c echo.Context) error {
 		Item   wishlistlib.Item
 	}{
 		YesURL: "/user/" + email + "/delitem/" + strconv.FormatUint(item_id, 10),
-		NoURL:  "/user/" + email,
+		NoURL:  "/user/" + email + "/item/" + strconv.FormatUint(item_id, 10),
 		Item:   item,
 	})
 }
@@ -53,23 +53,9 @@ func DelItem(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
-	// Get item info
-	var item_id uint64
-	var err error
-	if item_id_str := c.Param("item_id"); item_id_str == "" {
-		return echo.ErrNotFound
-	} else {
-		item_id, err = strconv.ParseUint(item_id_str, 10, 64)
-		if err != nil {
-			return echo.ErrNotFound
-		}
-	}
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
-	item, err := wish.GetItemByID(item_id)
+	item, err := inf.GetItemFromPath(c)
 	if err != nil {
-		return echo.ErrNotFound
+		return nil
 	}
 
 	// Check if currently logged in as this user
@@ -83,6 +69,9 @@ func DelItem(c echo.Context) error {
 	}
 
 	// Delete item
+	wish := wishlistlib.Context{
+		BaseUrl: inf.WISHLIST_BASE_URL,
+	}
 	wish.SetAuthenticatedUser(liUser)
 	err = wish.DeleteItem(item)
 	if err != nil {

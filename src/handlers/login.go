@@ -133,3 +133,27 @@ func LoginUser(c echo.Context) error {
 
 	return c.Redirect(http.StatusMovedPermanently, "/user/"+user.Email)
 }
+
+func Logout(c echo.Context) error {
+
+	// Delete User Data Cookie
+	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_USER_DATA)
+	if err != nil {
+		fmt.Println("[ERROR] Failed to get user-data cookie:\n ", err)
+		return echo.ErrInternalServerError
+	}
+	userData.Options.MaxAge = -1
+
+	err = userData.Save(c.Request(), c.Response())
+	if err != nil {
+		fmt.Println("[ERROR] Failed to save user-data:\n ", err)
+		return echo.ErrInternalServerError
+	}
+
+	return c.Render(http.StatusOK, "status", inf.StatusPageData{
+		Colour:          "green",
+		MainMessage:     "Successfully logged out!",
+		NextPageURL:     "/",
+		NextPageMessage: "Back to main page",
+	})
+}
