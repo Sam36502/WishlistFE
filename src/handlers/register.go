@@ -93,7 +93,7 @@ func RegisterUser(c echo.Context) error {
 	}
 
 	// Check password matches constraints
-	if errMsg := inf.CheckPasswordRequirements(formUser.NewPassword); errMsg != "" {
+	if errMsg := inf.CheckPasswordRequirements(formUser.Password); errMsg != "" {
 		hasError = true
 		formError.Password = errMsg
 	}
