@@ -94,10 +94,5 @@ func DelItem(c echo.Context) error {
 		})
 	}
 
-	return c.Render(http.StatusOK, "status", inf.StatusPageData{
-		Colour:          "green",
-		MainMessage:     "Item successfully deleted!",
-		NextPageURL:     "/user/" + email,
-		NextPageMessage: "Back to user page",
-	})
+	return c.Redirect(http.StatusMovedPermanently, "/user/"+email)
 }
