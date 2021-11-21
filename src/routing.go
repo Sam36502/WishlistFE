@@ -24,6 +24,8 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/logout", handlers.Logout)
 
 	e.GET("/user/:email", handlers.PgUserList)
+	e.GET("/user/:email/chgpassword", handlers.PgChangePassword)
+	e.POST("/user/:email/chgpassword", handlers.ChangePassword)
 	e.GET("/user/:email/delete", handlers.PgDeleteUser)
 	e.POST("/user/:email/delete", handlers.DeleteUser)
 
@@ -32,8 +34,8 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/user/:email/newitem", handlers.PgNewItem)
 	e.POST("/user/:email/newitem", handlers.NewItem)
 
-	e.GET("/user/:email/:item_id/delete", handlers.PgDelItem)
-	e.POST("/user/:email/:item_id/delete", handlers.DelItem)
+	e.GET("/user/:email/item/:item_id/delete", handlers.PgDelItem)
+	e.POST("/user/:email/item/:item_id/delete", handlers.DelItem)
 
 	e.GET("/user/:email/item/:item_id/reserve", handlers.PgReserveItem)
 	e.POST("/user/:email/item/:item_id/reserve", handlers.ReserveItem)

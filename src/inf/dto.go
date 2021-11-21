@@ -12,8 +12,9 @@ type FormUser struct {
 	Name            string `form:"name"`
 	Email           string `form:"email"`
 	Password        string `form:"password"`
+	NewPassword     string `form:"new_password"`
 	PasswordConfirm string `form:"pass_conf"`
-	StayLoggedIn    string `form:"stay-logged-in"`
+	StayLoggedIn    string `form:"stay_logged_in"`
 }
 
 type FormItem struct {
@@ -25,9 +26,11 @@ type FormItem struct {
 }
 
 type UserFormError struct {
-	Name     string
-	Email    string
-	Password string
+	Name            string
+	Email           string
+	NewPassword     string
+	Password        string
+	PasswordConfirm string
 }
 
 type ItemFormError struct {

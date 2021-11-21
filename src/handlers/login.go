@@ -73,7 +73,7 @@ func LoginUser(c echo.Context) error {
 	// Check all fields were filled
 	if formUser.Password == "" {
 		hasError = true
-		formError.Password = "Password & confirmation are required"
+		formError.Password = "Password is required"
 	}
 
 	wish := wishlistlib.Context{
@@ -121,6 +121,7 @@ func LoginUser(c echo.Context) error {
 		return echo.ErrInternalServerError
 	}
 
+	// Check Errors
 	if hasError {
 		session.Values["error"] = formError
 		err = session.Save(c.Request(), c.Response())

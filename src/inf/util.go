@@ -10,6 +10,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const (
+	PASS_MIN_LEN = 8 // Minimum allowed password length
+)
+
 // IsEmailValid checks if the email provided is valid by regex.
 // Courtesy of Stackoverflow user "icza"
 func IsEmailValid(e string) bool {
@@ -86,4 +90,19 @@ func GetStatusColour(s wishlistlib.Status) string {
 		return "green"
 
 	}
+}
+
+// Checks if a given password matches some basic security criteria
+// If it matches, this returns an empty string
+// otherwise, it returns a string with an error message
+// e.g.: "Password must be at least 8 characters"
+func CheckPasswordRequirements(password string) string {
+
+	if len(password) < PASS_MIN_LEN {
+		return "Password must be at least " + strconv.Itoa(PASS_MIN_LEN) + " characters"
+	}
+
+	// TODO: More rigourous constraints
+
+	return ""
 }

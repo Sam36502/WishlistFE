@@ -15,11 +15,13 @@
     <div class="f4 mt3">Price: CHF {{.Item.Price}}</div>
 
     <div class="f4 mt3">Links:</div>
+    {{if .Item.Links}}
     <ul>
         {{range .Item.Links}}
             <li><a class="link" href="{{.URL}}">{{.Text}}</a></li>
         {{end}}
     </ul>
+    {{end}}
 
     <div class="flex flex-column">
         {{if .LoggedIn}}

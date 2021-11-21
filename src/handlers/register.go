@@ -92,6 +92,12 @@ func RegisterUser(c echo.Context) error {
 		hasError = true
 	}
 
+	// Check password matches constraints
+	if errMsg := inf.CheckPasswordRequirements(formUser.NewPassword); errMsg != "" {
+		hasError = true
+		formError.Password = errMsg
+	}
+
 	var user wishlistlib.User
 	if !hasError {
 		// Register the User

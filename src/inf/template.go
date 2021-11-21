@@ -33,6 +33,7 @@ func LoadTemplates(e *echo.Echo) {
 	templates.load("item")
 	templates.load("add_item")
 	templates.load("confirm")
+	templates.load("change_password")
 
 	e.Renderer = templates
 }
