@@ -94,16 +94,12 @@ func ChangePassword(c echo.Context) error {
 	}
 
 	// Check the old password is valid
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {
 		return echo.ErrNotFound
 	}
-	user.SetPassword(formUser.Password)
-	wish.SetAuthenticatedUser(user)
-	err = wish.CheckCredentials()
+	err = wish.Authenticate(user.Email, formUser.Password)
 	if err != nil {
 		hasError = true
 		formError.Password = "Old Password is incorrect"
@@ -117,7 +113,7 @@ func ChangePassword(c echo.Context) error {
 
 	// Change Password
 	if !hasError {
-		err := wish.ChangeAuthenticatedUser("", "", formUser.NewPassword)
+		err := wish.ChangeUser(user, "", "", formUser.NewPassword)
 		if err != nil {
 			fmt.Println("[ERROR] Failed to change password:\n ", err)
 			return c.Render(http.StatusOK, "status", inf.StatusPageData{
@@ -141,16 +137,16 @@ func ChangePassword(c echo.Context) error {
 	}
 
 	// Log user out
-	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_USER_DATA)
+	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_TOKEN_DATA)
 	if err != nil {
-		fmt.Println("[ERROR] Failed to get user-data cookie:\n ", err)
+		fmt.Println("[ERROR] Failed to get token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
 	userData.Options.MaxAge = -1
 
 	err = userData.Save(c.Request(), c.Response())
 	if err != nil {
-		fmt.Println("[ERROR] Failed to save user-data:\n ", err)
+		fmt.Println("[ERROR] Failed to save token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
 

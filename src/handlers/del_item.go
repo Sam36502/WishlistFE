@@ -47,7 +47,7 @@ func DelItem(c echo.Context) error {
 	}
 
 	// Check if currently logged in as this user
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if email != liUser.Email {
 			return echo.ErrForbidden
@@ -57,11 +57,9 @@ func DelItem(c echo.Context) error {
 	}
 
 	// Delete item
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
-	wish.SetAuthenticatedUser(liUser)
-	err = wish.DeleteItem(item)
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish.Token = token
+	err = wish.DeleteItemOfUser(item, liUser)
 	if err != nil {
 		return c.Render(http.StatusOK, "status", inf.StatusPageData{
 			Colour:          "red",

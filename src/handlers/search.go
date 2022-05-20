@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"wishlist_fe/src/inf"
 
 	wishlist "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
@@ -38,8 +39,8 @@ func PgSearch(c echo.Context) error {
 	search = strings.TrimSpace(search)
 
 	// Search Users
-	ctx := wishlist.DefaultContext()
-	users, err := ctx.SearchUsers(search)
+	wish := wishlist.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	users, err := wish.SearchUsers(search)
 	if err != nil {
 		fmt.Println("[ERROR] Failed to search users:\n ", err)
 		return echo.ErrInternalServerError

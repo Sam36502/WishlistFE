@@ -101,7 +101,7 @@ func NewItem(c echo.Context) error {
 	}
 
 	// Check if currently logged in as this user
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if email != liUser.Email {
 			return echo.ErrForbidden
@@ -112,11 +112,9 @@ func NewItem(c echo.Context) error {
 
 	// Add item
 	if !hasError {
-		wish := wishlistlib.Context{
-			BaseUrl: inf.WISHLIST_BASE_URL,
-		}
-		wish.SetAuthenticatedUser(liUser)
-		_, err = wish.AddItemToAuthenticatedUserList(wishlistlib.Item{
+		wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+		wish.Token = token
+		_, err = wish.AddItemOfUser(wishlistlib.Item{
 			Name:        formItem.Name,
 			Description: formItem.Description,
 			Price:       float32(price), // parsed above
@@ -127,7 +125,7 @@ func NewItem(c echo.Context) error {
 					URL:  formItem.LinkURL,
 				},
 			},
-		})
+		}, liUser)
 		if err != nil {
 			hasError = true
 			fmt.Println("[ERROR] Failed to add the item to the database:\n ", err)

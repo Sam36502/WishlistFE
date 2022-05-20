@@ -1,10 +1,13 @@
 package inf
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 
 	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
@@ -21,37 +24,53 @@ func IsEmailValid(e string) bool {
 	return emailRegex.MatchString(e)
 }
 
-// Gets and parses the currently logged in user from the cookie
-func GetLoggedInUser(c echo.Context) (wishlistlib.User, error) {
-	userData, err := CookieStore.Get(c.Request(), COOKIE_USER_DATA)
+// Gets and parses the currently logged in user and token from the cookie
+func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error) {
+	tokenData, err := CookieStore.Get(c.Request(), COOKIE_TOKEN_DATA)
 	if err != nil {
-		fmt.Println("[ERROR] Failed to get user-data cookie:\n ", err)
-		return wishlistlib.User{}, err
+		fmt.Println("[ERROR] Failed to get token cookie:\n ", err)
+		return wishlistlib.User{}, wishlistlib.Token{}, err
 	}
 
-	userStr, exists := userData.Values["user"]
+	tokenInterface, exists := tokenData.Values[COOKIE_TOKEN_KEY]
 	if !exists {
-		return wishlistlib.User{}, errors.New("no user logged in")
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("no user logged in")
 	}
 
-	cookieUser, ok := userStr.(CookieUser)
+	cookieToken, ok := tokenInterface.(wishlistlib.Token)
 	if !ok {
 		fmt.Println("[ERROR] Couldn't convert cookie user. Deleted Cookie.")
-		userData.Options.MaxAge = -1
-		err = userData.Save(c.Request(), c.Response())
+		tokenData.Options.MaxAge = -1
+		err = tokenData.Save(c.Request(), c.Response())
 		if err != nil {
 			fmt.Println("[ERROR] Failed to delete cookie:\n ", err)
 		}
-		return wishlistlib.User{}, errors.New("couldn't convert logged in user")
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("Failed to convert cookie token")
 	}
 
-	user := wishlistlib.User{
-		ID:    cookieUser.ID,
-		Email: cookieUser.Email,
+	// Parse email from JWT
+	jwtClaimsEnc := strings.Split(cookieToken.Token, ".")[1]
+	jwtClaimsData, err := base64.StdEncoding.DecodeString(jwtClaimsEnc)
+	if err != nil {
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("Failed to decode JWT Claims")
 	}
-	user.SetPassword(cookieUser.Password)
+	var jwtClaims map[string]string
+	err = json.Unmarshal(jwtClaimsData, &jwtClaims)
+	if err != nil {
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("Failed to parse JWT Claims")
+	}
+	email, exists := jwtClaims["email"]
+	if !exists {
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("Invalid Token JWT saved")
+	}
 
-	return user, nil
+	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
+	user, err := wish.GetUserByEmail(email)
+	if err != nil {
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("Failed to retrieve logged-in user from API")
+	}
+
+	return user, cookieToken, nil
 }
 
 // Gets all item data based on the "item_id" path parameter
@@ -66,9 +85,7 @@ func GetItemFromPath(c echo.Context) (wishlistlib.Item, error) {
 			return wishlistlib.Item{}, echo.ErrNotFound
 		}
 	}
-	wish := wishlistlib.Context{
-		BaseUrl: WISHLIST_BASE_URL,
-	}
+	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
 	item, err := wish.GetItemByID(item_id)
 	if err != nil {
 		return wishlistlib.Item{}, echo.ErrNotFound

@@ -25,15 +25,13 @@ func PgUserList(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
 
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {
 		return c.Redirect(http.StatusPermanentRedirect, "/home")
 	}
-	items, err := wish.GetAllItems(user)
+	items, err := wish.GetAllItemsOfUser(user)
 	if err != nil {
 		fmt.Println("[ERROR] Failed to retrieve User's items:\n ", err)
 		return c.Redirect(http.StatusPermanentRedirect, "/err/500.html")
@@ -41,7 +39,7 @@ func PgUserList(c echo.Context) error {
 
 	// Check if currently logged in as this user
 	loggedIn := false
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, _, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		loggedIn = user.Email == liUser.Email
 	}

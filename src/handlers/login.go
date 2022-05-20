@@ -76,9 +76,7 @@ func LoginUser(c echo.Context) error {
 		formError.Password = "Password is required"
 	}
 
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
 
 	// Get User to log in
 	user, err := wish.GetUserByEmail(formUser.Email)
@@ -87,37 +85,29 @@ func LoginUser(c echo.Context) error {
 		hasError = true
 	}
 
-	// Log user in
-	user.SetPassword(formUser.Password)
-	wish.SetAuthenticatedUser(user)
-
-	// Check Login
-	err = wish.CheckCredentials()
+	// Log in
+	err = wish.Authenticate(user.Email, formUser.Password)
 	if err != nil {
 		hasError = true
 		formError.Password = "Email/Password incorrect"
 	}
 
-	// Add user data to cookie
-	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_USER_DATA)
+	// Add Token to cookie
+	tokenData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_TOKEN_DATA)
 	if err != nil {
-		fmt.Println("[ERROR] Failed to get user-data cookie:\n ", err)
+		fmt.Println("[ERROR] Failed to get token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
-	userData.Values["user"] = inf.CookieUser{
-		ID:       user.ID,
-		Email:    user.Email,
-		Password: formUser.Password,
-	}
+	tokenData.Values[inf.COOKIE_TOKEN_DATA] = wish.Token
 
 	// Set Cookie to expire if "keep me logged in" not checked
 	if !(formUser.StayLoggedIn == "on") {
-		userData.Options.MaxAge = inf.COOKIE_TIMEOUT
+		tokenData.Options.MaxAge = inf.COOKIE_TIMEOUT
 	}
 
-	err = userData.Save(c.Request(), c.Response())
+	err = tokenData.Save(c.Request(), c.Response())
 	if err != nil {
-		fmt.Println("[ERROR] Failed to save user-data:\n ", err)
+		fmt.Println("[ERROR] Failed to save token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
 
@@ -137,17 +127,17 @@ func LoginUser(c echo.Context) error {
 
 func Logout(c echo.Context) error {
 
-	// Delete User Data Cookie
-	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_USER_DATA)
+	// Delete Token Cookie
+	userData, err := inf.CookieStore.Get(c.Request(), inf.COOKIE_TOKEN_DATA)
 	if err != nil {
-		fmt.Println("[ERROR] Failed to get user-data cookie:\n ", err)
+		fmt.Println("[ERROR] Failed to get token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
 	userData.Options.MaxAge = -1
 
 	err = userData.Save(c.Request(), c.Response())
 	if err != nil {
-		fmt.Println("[ERROR] Failed to save user-data:\n ", err)
+		fmt.Println("[ERROR] Failed to save token cookie:\n ", err)
 		return echo.ErrInternalServerError
 	}
 

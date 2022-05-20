@@ -23,7 +23,7 @@ func PgItem(c echo.Context) error {
 	// Check if currently logged in as this user
 	loggedInHere := false
 	loggedIn := false
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, _, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		loggedIn = true
 		loggedInHere = liUser.Email == email

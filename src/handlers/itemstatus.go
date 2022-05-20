@@ -45,7 +45,7 @@ func ReserveItem(c echo.Context) error {
 
 	// Check if currently logged in as this user
 	// Only logged-in users other than yourself can reserve items
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if email == liUser.Email {
 			return echo.ErrForbidden
@@ -55,11 +55,17 @@ func ReserveItem(c echo.Context) error {
 	}
 
 	// Mark item as reserved
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish.Token = token
+	err = wish.ReserveItemOfUser(item, liUser)
+	if err != nil {
+		return c.Render(http.StatusOK, "status", inf.StatusPageData{
+			Colour:          "red",
+			MainMessage:     "Failed to reserve item. Please try again later.",
+			NextPageURL:     "/user/" + email + "/item/" + strconv.FormatUint(item.ItemID, 10),
+			NextPageMessage: "Back to " + item.Name + " item page",
+		})
 	}
-	wish.SetAuthenticatedUser(liUser)
-	wish.ReserveItem(item)
 
 	return c.Render(http.StatusOK, "status", inf.StatusPageData{
 		Colour:          "green",
@@ -104,7 +110,7 @@ func UnreserveItem(c echo.Context) error {
 	}
 
 	// Check if currently logged in as the user who reserved it
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if item.ReservedByUser.Email != liUser.Email {
 			return echo.ErrForbidden
@@ -114,11 +120,17 @@ func UnreserveItem(c echo.Context) error {
 	}
 
 	// Mark item as reserved
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish.Token = token
+	err = wish.UnreserveItemOfUser(item, liUser)
+	if err != nil {
+		return c.Render(http.StatusOK, "status", inf.StatusPageData{
+			Colour:          "red",
+			MainMessage:     "Failed to remove reservation. Please try again later.",
+			NextPageURL:     "/user/" + email + "/item/" + strconv.FormatUint(item.ItemID, 10),
+			NextPageMessage: "Back to " + item.Name + " item page",
+		})
 	}
-	wish.SetAuthenticatedUser(liUser)
-	wish.UnreserveItem(item)
 
 	return c.Render(http.StatusOK, "status", inf.StatusPageData{
 		Colour:          "green",
@@ -163,7 +175,7 @@ func ReceiveItem(c echo.Context) error {
 	}
 
 	// Check if currently logged in as this user
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if email != liUser.Email {
 			return echo.ErrForbidden
@@ -173,11 +185,9 @@ func ReceiveItem(c echo.Context) error {
 	}
 
 	// Mark item as received
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
-	}
-	wish.SetAuthenticatedUser(liUser)
-	wish.SetItemStatus(item, wishlistlib.Status{StatusID: 3}) // Status 3 --> Received
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish.Token = token
+	wish.SetItemStatusOfUser(item, liUser, wishlistlib.Status{StatusID: 3}) // Status 3 --> Received
 
 	return c.Render(http.StatusOK, "status", inf.StatusPageData{
 		Colour:          "green",
@@ -222,7 +232,7 @@ func UnReceiveItem(c echo.Context) error {
 	}
 
 	// Check if currently logged in as this user
-	liUser, err := inf.GetLoggedInUser(c)
+	liUser, token, err := inf.GetLoggedInUser(c)
 	if err == nil {
 		if email != liUser.Email {
 			return echo.ErrForbidden
@@ -231,12 +241,18 @@ func UnReceiveItem(c echo.Context) error {
 		return echo.ErrUnauthorized
 	}
 
-	// Mark item as received
-	wish := wishlistlib.Context{
-		BaseUrl: inf.WISHLIST_BASE_URL,
+	// Mark item as available
+	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish.Token = token
+	err = wish.SetItemStatusOfUser(item, liUser, wishlistlib.Status{StatusID: 1}) // Status 1 --> Available
+	if err != nil {
+		return c.Render(http.StatusOK, "status", inf.StatusPageData{
+			Colour:          "red",
+			MainMessage:     "Failed to mark item as available. Please try again later.",
+			NextPageURL:     "/user/" + email + "/item/" + strconv.FormatUint(item.ItemID, 10),
+			NextPageMessage: "Back to " + item.Name + " item page",
+		})
 	}
-	wish.SetAuthenticatedUser(liUser)
-	wish.SetItemStatus(item, wishlistlib.Status{StatusID: 1}) // Status 1 --> Available
 
 	return c.Render(http.StatusOK, "status", inf.StatusPageData{
 		Colour:          "green",

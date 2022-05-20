@@ -3,21 +3,16 @@ package inf
 import (
 	"encoding/gob"
 
+	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 )
 
 const (
-	COOKIE_TIMEOUT   = 60 * 60     // User data cookie expires after one hour
-	COOKIE_FORM_DATA = "form-data" // Cookie name for sending error information to form pages
-	COOKIE_USER_DATA = "user-data" // Cookie name for user login data
+	COOKIE_TIMEOUT    = 30 * 24 * 60 * 60 // User data cookie expires after 30 days (same as API token)
+	COOKIE_FORM_DATA  = "form-data"       // Cookie name for sending error information to form pages
+	COOKIE_TOKEN_DATA = "token-data"      // Cookie name for the access token
 )
-
-type CookieUser struct {
-	ID       uint64
-	Email    string
-	Password string
-}
 
 var CookieStore *sessions.CookieStore
 
@@ -42,5 +37,5 @@ func InitCookieStore() {
 	gob.Register(FormUser{})
 	gob.Register(ItemFormError{})
 	gob.Register(FormItem{})
-	gob.Register(CookieUser{})
+	gob.Register(wishlistlib.Token{})
 }
