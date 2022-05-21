@@ -52,10 +52,13 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 		UseJSONNumber:        false,
 		SkipClaimsValidation: true,
 	}
-	var jwtClaims TokenJWTClaims
-	_, _, err = jwtParser.ParseUnverified(cookieToken.Token, jwtClaims)
+	token, _, err := jwtParser.ParseUnverified(cookieToken.Token, TokenJWTClaims{})
 	if err != nil {
 		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to parse JWT Claims: " + err.Error())
+	}
+	jwtClaims, ok := token.Claims.(TokenJWTClaims)
+	if !ok {
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to convert cookie claims to token claims")
 	}
 
 	/*
