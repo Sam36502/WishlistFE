@@ -4,15 +4,9 @@ import (
 	"encoding/gob"
 
 	wishlistlib "github.com/Sam36502/WishlistLib-go"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 )
-
-type TokenJWTClaims struct {
-	jwt.StandardClaims
-	Email string `json:"email"`
-}
 
 var CookieStore *sessions.CookieStore
 
