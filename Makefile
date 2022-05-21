@@ -25,7 +25,7 @@ image: build
 ## Starts the docker-compose cluster
 up: down image
 	@echo "### Starting Container ###"
-	@docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE} -v "/etc/letsencrypt:/certs:ro"
+	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}
 
 ## Stops the docker-compose cluster
 down:
