@@ -1,15 +1,13 @@
 package inf
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
-	"strings"
 
 	wishlistlib "github.com/Sam36502/WishlistLib-go"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 )
 
@@ -49,23 +47,36 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 	}
 
 	// Parse email from JWT
-	jwtClaimsEnc := strings.Split(cookieToken.Token, ".")[1]
-	jwtClaimsData, err := base64.StdEncoding.DecodeString(jwtClaimsEnc)
-	if err != nil {
-		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to decode JWT Claims: " + err.Error())
+	jwtParser := jwt.Parser{
+		ValidMethods:         []string{},
+		UseJSONNumber:        false,
+		SkipClaimsValidation: true,
 	}
-	var jwtClaims map[string]string
-	err = json.Unmarshal(jwtClaimsData, &jwtClaims)
+	var jwtClaims TokenJWTClaims
+	_, _, err = jwtParser.ParseUnverified(cookieToken.Token, jwtClaims)
 	if err != nil {
 		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to parse JWT Claims: " + err.Error())
 	}
-	email, exists := jwtClaims["email"]
-	if !exists {
-		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("invalid Token JWT saved")
-	}
+
+	/*
+		jwtClaimsEnc := strings.Split(cookieToken.Token, ".")[1]
+		jwtClaimsData, err := base64.StdEncoding.DecodeString(jwtClaimsEnc)
+		if err != nil {
+			return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to decode JWT Claims: " + err.Error())
+		}
+		var jwtClaims map[string]string
+		err = json.Unmarshal(jwtClaimsData, &jwtClaims)
+		if err != nil {
+			return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to parse JWT Claims: " + err.Error())
+		}
+		email, exists := jwtClaims["email"]
+		if !exists {
+			return wishlistlib.User{}, wishlistlib.Token{}, errors.New("invalid Token JWT saved")
+		}
+	*/
 
 	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
-	user, err := wish.GetUserByEmail(email)
+	user, err := wish.GetUserByEmail(jwtClaims.Email)
 	if err != nil {
 		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to retrieve logged-in user from API: " + err.Error())
 	}

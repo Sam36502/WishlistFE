@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/Sam36502/WishlistLib-go v1.0.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/securecookie v1.1.1
 	github.com/gorilla/sessions v1.2.1
 	github.com/labstack/echo/v4 v4.6.1
