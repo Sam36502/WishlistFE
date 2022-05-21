@@ -2,7 +2,6 @@ EXE_LINUX = "run_server_linux"
 EXE_WIN = "run_server_win.exe"
 DOCKER_IMAGE = "wishlist_frontend"
 CONTAINER_NAME ="wishlist_frontend"
-CERT_DIR = "/etc/letsencrypt/live/www.pearcenet.ch"
 
 .PHONY: help
 help:
@@ -18,30 +17,15 @@ build-win:
 	@echo "### Building Windows Executable ###"
 	@GOOS="windows" go build -o data/${EXE_WIN} ./src/
 
-## cleans certs directory
-clean-certs:
-	@echo "### Cleaning Certs Directory ###"
-	@rm -rf ./certs
-
-## Gets the SSL files and puts them in certs directory for Docker
-get-certs: clean-certs
-	@echo "### Getting Certificate Files ###"
-	@mkdir ./certs
-	@cp ${CERT_DIR}/fullchain.pem ./certs/fullchain.pem
-	@cp ${CERT_DIR}/privkey.pem ./certs/privkey.pem
-
 ## Builds the docker image
-image: build get-certs
+image: build
 	@echo "### Building Docker Image ###"
 	@docker build -t ${DOCKER_IMAGE} .
 
-## Builds docker image and cleans cert dir
-image-clean: image clean-certs
-
 ## Starts the docker-compose cluster
-up: down image-clean
+up: down image
 	@echo "### Starting Container ###"
-	@docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE}
+	@docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${DOCKER_IMAGE} -v "/etc/letsencrypt:/certs:ro"
 
 ## Stops the docker-compose cluster
 down:
