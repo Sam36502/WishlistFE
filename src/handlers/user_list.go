@@ -40,6 +40,7 @@ func PgUserList(c echo.Context) error {
 	// Check if currently logged in as this user
 	loggedIn := false
 	liUser, _, err := inf.GetLoggedInUser(c)
+	fmt.Println("[DEBUG] Err from fetching logged-in user:", err)
 	if err == nil {
 		loggedIn = user.Email == liUser.Email
 	}
