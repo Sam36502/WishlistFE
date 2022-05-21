@@ -52,12 +52,12 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 	jwtClaimsEnc := strings.Split(cookieToken.Token, ".")[1]
 	jwtClaimsData, err := base64.StdEncoding.DecodeString(jwtClaimsEnc)
 	if err != nil {
-		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to decode JWT Claims")
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to decode JWT Claims: " + err.Error())
 	}
 	var jwtClaims map[string]string
 	err = json.Unmarshal(jwtClaimsData, &jwtClaims)
 	if err != nil {
-		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to parse JWT Claims")
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to parse JWT Claims: " + err.Error())
 	}
 	email, exists := jwtClaims["email"]
 	if !exists {
@@ -67,7 +67,7 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {
-		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to retrieve logged-in user from API")
+		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to retrieve logged-in user from API: " + err.Error())
 	}
 
 	return user, cookieToken, nil
