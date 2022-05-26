@@ -45,12 +45,14 @@ func PgUserList(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "user_list", struct {
-		User     wishlistlib.User
-		Items    []wishlistlib.Item
-		LoggedIn bool
+		User            wishlistlib.User
+		Items           []wishlistlib.Item
+		GetStatusColour func(wishlistlib.Status) string
+		LoggedIn        bool
 	}{
-		User:     user,
-		Items:    items,
-		LoggedIn: loggedIn,
+		User:            user,
+		Items:           items,
+		GetStatusColour: inf.GetStatusColour,
+		LoggedIn:        loggedIn,
 	})
 }

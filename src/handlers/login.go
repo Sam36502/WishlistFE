@@ -100,8 +100,8 @@ func LoginUser(c echo.Context) error {
 	}
 	tokenData.Values[inf.COOKIE_TOKEN_DATA] = wish.Token
 
-	// Set Cookie to expire if "keep me logged in" not checked
-	if !(formUser.StayLoggedIn == "on") {
+	// Set cookie to only expire after a month if the "remember me" option is set
+	if formUser.StayLoggedIn == "on" {
 		tokenData.Options.MaxAge = inf.COOKIE_TIMEOUT
 	}
 
