@@ -37,7 +37,7 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 
 	cookieToken, ok := tokenInterface.(wishlistlib.Token)
 	if !ok {
-		fmt.Println("[ERROR] Couldn't convert cookie user. Deleted Cookie.")
+		fmt.Println("[ERROR] Couldn't convert cookie user. Deleting Cookie...")
 		tokenData.Options.MaxAge = -1
 		err = tokenData.Save(c.Request(), c.Response())
 		if err != nil {
