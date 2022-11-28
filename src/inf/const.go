@@ -9,5 +9,5 @@ const (
 
 // Wishlist Lib Config
 const (
-	WISHLIST_BASE_URL = "https://www.pearcenet.ch"
+	WISHLIST_BASE_URL = "http://ptheus.pearcenet.local"
 )
