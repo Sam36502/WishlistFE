@@ -94,7 +94,7 @@ func ChangePassword(c echo.Context) error {
 	}
 
 	// Check the old password is valid
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish := inf.GetWishlistClient(wishlistlib.Token{})
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {
 		return echo.ErrNotFound

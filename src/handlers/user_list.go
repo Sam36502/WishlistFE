@@ -25,7 +25,7 @@ func PgUserList(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish := inf.GetWishlistClient(wishlistlib.Token{})
 
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {

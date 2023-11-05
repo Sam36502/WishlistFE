@@ -112,8 +112,7 @@ func NewItem(c echo.Context) error {
 
 	// Add item
 	if !hasError {
-		wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-		wish.Token = token
+		wish := inf.GetWishlistClient(token)
 		_, err = wish.AddItemOfUser(wishlistlib.Item{
 			Name:        formItem.Name,
 			Description: formItem.Description,

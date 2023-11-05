@@ -98,16 +98,15 @@ func RegisterUser(c echo.Context) error {
 		formError.Password = errMsg
 	}
 
-	var user wishlistlib.User
 	if !hasError {
 		// Register the User
-		user = wishlistlib.User{
+		user := wishlistlib.User{
 			Name:  formUser.Name,
 			Email: formUser.Email,
 		}
 
-		wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-		user, err = wish.AddNewUser(user, formUser.Password)
+		wish := inf.GetWishlistClient(wishlistlib.Token{})
+		_, err = wish.AddNewUser(user, formUser.Password)
 		if err != nil {
 			hasError = true
 			if _, ok := err.(wishlistlib.EmailExistsError); ok {

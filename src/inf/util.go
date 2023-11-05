@@ -69,7 +69,7 @@ func GetLoggedInUser(c echo.Context) (wishlistlib.User, wishlistlib.Token, error
 		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("invalid JWT Claims parsed; email is not a string")
 	}
 
-	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
+	wish := GetWishlistClient(wishlistlib.Token{})
 	user, err := wish.GetUserByEmail(email)
 	if err != nil {
 		return wishlistlib.User{}, wishlistlib.Token{}, errors.New("failed to retrieve logged-in user from API: " + err.Error())
@@ -90,7 +90,7 @@ func GetItemFromPath(c echo.Context) (wishlistlib.Item, error) {
 			return wishlistlib.Item{}, echo.ErrNotFound
 		}
 	}
-	wish := wishlistlib.DefaultWishClient(WISHLIST_BASE_URL)
+	wish := GetWishlistClient(wishlistlib.Token{})
 	item, err := wish.GetItemByID(item_id)
 	if err != nil {
 		return wishlistlib.Item{}, echo.ErrNotFound

@@ -6,8 +6,3 @@ const (
 	COOKIE_FORM_DATA  = "form-data"       // Cookie name for sending error information to form pages
 	COOKIE_TOKEN_DATA = "token-data"      // Cookie name for the access token
 )
-
-// Wishlist Lib Config
-const (
-	WISHLIST_BASE_URL = "http://ptheus.pearcenet.local"
-)

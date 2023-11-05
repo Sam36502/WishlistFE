@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"wishlist_fe/src/inf"
 
-	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
 )
 
@@ -57,8 +56,7 @@ func DelItem(c echo.Context) error {
 	}
 
 	// Delete item
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-	wish.Token = token
+	wish := inf.GetWishlistClient(token)
 	err = wish.DeleteItemOfUser(item, liUser)
 	if err != nil {
 		return c.Render(http.StatusOK, "status", inf.StatusPageData{

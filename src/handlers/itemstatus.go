@@ -55,8 +55,7 @@ func ReserveItem(c echo.Context) error {
 	}
 
 	// Mark item as reserved
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-	wish.Token = token
+	wish := inf.GetWishlistClient(token)
 	err = wish.ReserveItemOfUser(item, liUser)
 	if err != nil {
 		return c.Render(http.StatusOK, "status", inf.StatusPageData{
@@ -120,8 +119,7 @@ func UnreserveItem(c echo.Context) error {
 	}
 
 	// Mark item as reserved
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-	wish.Token = token
+	wish := inf.GetWishlistClient(token)
 	err = wish.UnreserveItemOfUser(item, liUser)
 	if err != nil {
 		return c.Render(http.StatusOK, "status", inf.StatusPageData{
@@ -185,8 +183,7 @@ func ReceiveItem(c echo.Context) error {
 	}
 
 	// Mark item as received
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-	wish.Token = token
+	wish := inf.GetWishlistClient(token)
 	wish.SetItemStatusOfUser(item, liUser, wishlistlib.Status{StatusID: 3}) // Status 3 --> Received
 
 	return c.Render(http.StatusOK, "status", inf.StatusPageData{
@@ -242,8 +239,7 @@ func UnReceiveItem(c echo.Context) error {
 	}
 
 	// Mark item as available
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
-	wish.Token = token
+	wish := inf.GetWishlistClient(token)
 	err = wish.SetItemStatusOfUser(item, liUser, wishlistlib.Status{StatusID: 1}) // Status 1 --> Available
 	if err != nil {
 		return c.Render(http.StatusOK, "status", inf.StatusPageData{

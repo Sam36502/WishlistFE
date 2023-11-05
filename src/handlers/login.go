@@ -76,7 +76,7 @@ func LoginUser(c echo.Context) error {
 		formError.Password = "Password is required"
 	}
 
-	wish := wishlistlib.DefaultWishClient(inf.WISHLIST_BASE_URL)
+	wish := inf.GetWishlistClient(wishlistlib.Token{})
 
 	// Get User to log in
 	user, err := wish.GetUserByEmail(formUser.Email)
