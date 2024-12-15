@@ -12,12 +12,26 @@ type Template struct {
 	templates map[string]*template.Template
 }
 
+type TemplateData struct {
+	CurrentUserEmail string
+	Data             interface{}
+}
+
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	if _, ok := t.templates[name]; !ok {
 		return NoTemplateError(name)
 	}
 
-	return template.Must(t.templates[name], nil).Execute(w, data)
+	email := ""
+	liUser, _, err := GetLoggedInUser(c)
+	if err == nil {
+		email = liUser.Email
+	}
+
+	return template.Must(t.templates[name], nil).Execute(w, TemplateData{
+		CurrentUserEmail: email,
+		Data:             data,
+	})
 }
 
 func LoadTemplates(e *echo.Echo) {

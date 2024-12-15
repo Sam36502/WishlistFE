@@ -14,7 +14,6 @@ import (
 	"strings"
 	"wishlist_fe/src/inf"
 
-	wishlist "github.com/Sam36502/WishlistLib-go"
 	wishlistlib "github.com/Sam36502/WishlistLib-go"
 	"github.com/labstack/echo/v4"
 )
@@ -22,7 +21,7 @@ import (
 type searchResultData struct {
 	Search       string
 	ResultString string
-	Results      []wishlist.User
+	Results      []wishlistlib.User
 }
 
 func PgSearch(c echo.Context) error {

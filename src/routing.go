@@ -13,8 +13,7 @@ import (
 func InitRoutes(e *echo.Echo) {
 
 	e.GET("/", PgMain)
-	e.File("/favicon.ico", "data/img/favicon.ico")
-	e.File("/robots.txt", "data/robots.txt")
+	e.Static("/", "data/static")
 
 	// User Routes
 	e.GET("/search", handlers.PgSearch)

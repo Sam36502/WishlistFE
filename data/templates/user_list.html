@@ -1,18 +1,18 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="f2">{{.User.Name}}'s Wishlist:</div>
+    <div class="f2">{{.Data.User.Name}}'s Wishlist:</div>
     <div class="fl w-100 w-20-ns">
         <div class="f5 mt4">Sort/Filter List</div>
         <div class="f6">Coming Soon...</div>
 
-        {{if .LoggedIn}}
-        <a class="f6 link dim ba ph3 pv2 ma2 mt4 db green" href="/user/{{.User.Email}}/newitem">Add Item</a>
-        <a class="f6 link dim ba ph3 pv2 ma2 mt4 db gray" href="/user/{{.User.Email}}/chgpassword">Change Password</a>
+        {{if .Data.LoggedIn}}
+        <a class="f6 link dim ba ph3 pv2 ma2 mt4 db green" href="/user/{{.Data.User.Email}}/newitem">Add Item</a>
+        <a class="f6 link dim ba ph3 pv2 ma2 mt4 db gray" href="/user/{{.Data.User.Email}}/chgpassword">Change Password</a>
         <a class="f6 link ba ph3 pv2 ma2 db gray" href="#">More User Settings (Coming Soon...)</a>
         {{end}}
     </div>
-    {{if not .Items}}
+    {{if not .Data.Items}}
     <div class="fl f6 f5-ns pv7 w-100 w-80-ns bg-near-white">
         <div class="f3 tc">No Items</div>
     </div>
@@ -20,20 +20,20 @@
     <table class="fl f6 f5-ns w-100 w-80-ns" cellspacing="0">
         <thead>
             <tr>
-                <th class="pa1 pa3-ns bb">Price</th>
                 <th class="pa1 pa3-ns bb">Item Name</th>
+                <th class="pa1 pa3-ns bb">Price</th>
                 <th class="pa1 pa3-ns bb">Status</th>
             </tr>
         </thead>
         <tbody>
-            {{range .Items}}
-                <tr class="hover-bg-near-white" onclick="window.location='/user/{{$.User.Email}}/item/{{.ItemID}}';">
-                    <td class="pa1 pa3-ns">{{.Price}}</td>
+            {{range .Data.Items}}
+                <tr class="hover-bg-near-white" onclick="window.location='/user/{{$.Data.User.Email}}/item/{{.ItemID}}';">
                     <td class="pa1 pa3-ns">{{.Name}}</td>
-                    {{if and $.LoggedIn (ne .Status.StatusID 3)}}
+                    <td class="pa1 pa3-ns tr">{{.Price}} CHF</td>
+                    {{if and $.Data.LoggedIn (ne .Status.StatusID 3)}}
                     <td class="pa1 pa3-ns bg-near-white">REDACTED</td>
                     {{else}}
-                    <td class="pa1 pa3-ns bg-{{call $.GetStatusColour .Status}}">{{.Status.Name}}</td>
+                    <td class="pa1 pa3-ns bg-{{call $.Data.GetStatusColour .Status}}">{{.Status.Name}}</td>
                     {{end}}
                 </tr>
             {{end}}

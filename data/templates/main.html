@@ -9,9 +9,9 @@
     </form>
 
     <div class="f2 mt5">Latest Information:</div>
-    {{if .}}
+    {{if .Data}}
         <div class="pa2 mt2">
-            {{range .}}
+            {{range .Data}}
                 <div class="">
                     <div class="f3">{{.Title}}</div>
                     <div class="f5 i">{{.Version}}</div>

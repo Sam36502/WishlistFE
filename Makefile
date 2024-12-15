@@ -19,10 +19,6 @@ image: build ## Builds the docker image
 	@echo "### Building Docker Image ###"
 	@docker build -t ${DOCKER_IMAGE} .
 
-up: down image ## Starts the docker-compose cluster
-	@echo "### Starting Container ###"
-	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}
-
 up: down image ## Starts the container
 	@echo "### Starting Container ###"
 	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}

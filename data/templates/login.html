@@ -5,16 +5,16 @@
     <form method="post" action="/login" class="ml4 f4 f3-ns">
         <div class="mt3">
             <label for="email-field" class="db f5">E-Mail</label>
-            <input id="email-field" type="email" name="email" class="mv2 input-reset ba" value="{{.User.Email}}">
-            {{if .Error.Email}}
-                <i class="db f5 red">{{.Error.Email}}</i>
+            <input id="email-field" type="email" name="email" class="mv2 input-reset ba" value="{{.Data.User.Email}}">
+            {{if .Data.Error.Email}}
+                <i class="db f5 red">{{.Data.Error.Email}}</i>
             {{end}}
         </div>
         <div class="mt3">
             <label for="password-field" class="db f5">Password</label>
             <input id="password-field" type="password" name="password" class="mv2 input-reset ba">
-            {{if .Error.Password}}
-                <i class="db f5 red">{{.Error.Password}}</i>
+            {{if .Data.Error.Password}}
+                <i class="db f5 red">{{.Data.Error.Password}}</i>
             {{end}}
         </div>
         <div class="mt3">
