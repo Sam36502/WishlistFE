@@ -16,7 +16,7 @@ func InitWishlistClient() {
 
 	g_WishClient = &wishlistlib.WishClient{
 		BaseURL: baseURL,
-		Port:    wishlistlib.DEFAULT_PORT,
+		Port:    0,
 		Token:   wishlistlib.Token{},
 	}
 }

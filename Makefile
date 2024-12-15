@@ -7,36 +7,29 @@ CONTAINER_NAME ="wishlist_frontend"
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-## Builds the executable for linux
-build:
+build: ## Builds the executable for linux
 	@echo "### Building Linux Executable ###"
 	@GOOS="linux" go build -o data/${EXE_LINUX} ./src/
 
-## Builds the executable for windows
-build-win:
+build-win: ## Builds the executable for windows
 	@echo "### Building Windows Executable ###"
 	@GOOS="windows" go build -o data/${EXE_WIN} ./src/
 
-## Builds the docker image
-image: build
+image: build ## Builds the docker image
 	@echo "### Building Docker Image ###"
 	@docker build -t ${DOCKER_IMAGE} .
 
-## Starts the docker-compose cluster
-up: down image
+up: down image ## Starts the docker-compose cluster
 	@echo "### Starting Container ###"
 	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}
 
-## Stops the docker-compose cluster
-down:
+down: ## Stops the docker-compose cluster
 	@echo "### Stopping Container ###"
 	@-docker stop ${CONTAINER_NAME}
 	@-docker rm ${CONTAINER_NAME}
 
-## Connects to api container
-bash-api:
+bash-api: ## Connects to api container
 	@docker exec -it wishlistapi_wishlist_api_1 sh
 
-## Connects to db container
-bash-db:
+bash-db: ## Connects to db container
 	@docker exec -it wishlistapi_wishlist_db_1 sh
