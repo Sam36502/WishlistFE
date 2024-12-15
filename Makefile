@@ -1,7 +1,7 @@
 EXE_LINUX = "run_server_linux"
 EXE_WIN = "run_server_win.exe"
 DOCKER_IMAGE = "wishlist_frontend"
-CONTAINER_NAME ="wishlist_frontend"
+CONTAINER_NAME ="wishlist"
 
 .PHONY: help
 help:
@@ -23,7 +23,11 @@ up: down image ## Starts the docker-compose cluster
 	@echo "### Starting Container ###"
 	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}
 
-down: ## Stops the docker-compose cluster
+up: down image ## Starts the container
+	@echo "### Starting Container ###"
+	@docker run -d --name ${CONTAINER_NAME} -v "/etc/letsencrypt:/certs:ro" -p 5000:5000 ${DOCKER_IMAGE}
+
+down: ## Stops the container
 	@echo "### Stopping Container ###"
 	@-docker stop ${CONTAINER_NAME}
 	@-docker rm ${CONTAINER_NAME}
