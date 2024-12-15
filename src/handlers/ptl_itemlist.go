@@ -1,8 +1,8 @@
 /*
- *		USER LIST
+ *		Partial Item-List
  *
- *		All functions pertaining to displaying and
- *		editing the user's wishlist items
+ *		Loads and renders *just* the item datatable
+ *		for use with HTMX
  *
  */
 
@@ -17,7 +17,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func PgUserList(c echo.Context) error {
+func PtlUserList(c echo.Context) error {
 
 	// Get all the user's items
 	email := c.Param("email")
@@ -44,7 +44,7 @@ func PgUserList(c echo.Context) error {
 		thisIsMe = user.Email == liUser.Email
 	}
 
-	return c.Render(http.StatusOK, "user_list", struct {
+	return c.Render(http.StatusOK, "itemlist", struct {
 		User            wishlistlib.User
 		Items           []wishlistlib.Item
 		GetStatusColour func(wishlistlib.Status) string

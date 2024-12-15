@@ -37,6 +37,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 func LoadTemplates(e *echo.Echo) {
 	templates := &Template{make(map[string]*template.Template)}
 
+	// Page Templates
 	templates.load("main")
 	templates.load("error")
 	templates.load("search")
@@ -49,12 +50,24 @@ func LoadTemplates(e *echo.Echo) {
 	templates.load("confirm")
 	templates.load("change_password")
 
+	// Partial Templates
+	templates.loadPartial("itemlist")
+
 	e.Renderer = templates
 }
 
 func (t *Template) load(name string) {
 	var err error
 	t.templates[name], err = template.ParseFiles("data/templates/base.html", "data/templates/"+name+".html")
+
+	if err != nil {
+		fmt.Printf("[ERROR] Failed to load template '%v':\n%v", name, err)
+	}
+}
+
+func (t *Template) loadPartial(name string) {
+	var err error
+	t.templates[name], err = template.ParseFiles("data/templates/partial/" + name + ".html")
 
 	if err != nil {
 		fmt.Printf("[ERROR] Failed to load template '%v':\n%v", name, err)

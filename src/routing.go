@@ -49,6 +49,9 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/user/:email/item/:item_id/unreceive", handlers.PgUnReceiveItem)
 	e.POST("/user/:email/item/:item_id/unreceive", handlers.UnReceiveItem)
 
+	// Partial Routes
+	e.GET("/ptl/userlist/:email", handlers.PtlUserList)
+
 }
 
 type Post struct {
