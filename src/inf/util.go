@@ -13,6 +13,10 @@ import (
 
 const (
 	PASS_MIN_LEN = 8 // Minimum allowed password length
+
+	STATUS_AVAILABLE = 1
+	STATUS_RESERVED  = 2
+	STATUS_RECEIVED  = 3
 )
 
 // IsEmailValid checks if the email provided is valid by regex.
