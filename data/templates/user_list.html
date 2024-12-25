@@ -3,11 +3,31 @@
 {{define "content"}}
     <div class="f2">{{.Data.User.Name}}'s Wishlist:</div>
     <div class="fl w-100 w-20-ns">
-        <div class="f5 mt4">Sort/Filter List</div>
-        <a	class="f4 link w-30-ns w-100 mt3 ph2 pv1 ba black dim"
+        <div class="f4 mt4">List Filters</div>
+		<form
+			id="userlist_filters"
+			hx-target="#userlist_datatable"
 			hx-get="/ptl/userlist/{{.Data.User.Email}}"
-			hx-target="#userlist_datatable" 
-		>Fetch List</a>
+		>
+			<input class="f5 lh-copy ma2" type="checkbox"
+				checked
+				name="cb_show_received"
+				hx-get="/ptl/userlist/{{.Data.User.Email}}"
+				hx-include="#userlist_filters"
+				{{if not .CurrentUserEmail}}disabled{{end}}
+			><span
+				{{if .CurrentUserEmail}} class="black" {{else}} class="moon-gray" {{end}}
+			>Show Received Items</span><br>
+			<input class="f5 lh-copy ma2" type="checkbox"
+				checked
+				name="cb_show_reserved"
+				hx-get="/ptl/userlist/{{.Data.User.Email}}"
+				hx-include="#userlist_filters"
+				{{if not .CurrentUserEmail}}disabled{{end}}
+			><span
+				{{if .CurrentUserEmail}} class="black" {{else}} class="moon-gray" {{end}}
+			>Show Reserved Items</span><br>
+		</form>
 
         {{if .Data.ThisIsMe}}
         <a class="f6 link dim ba ph3 pv2 ma2 mt4 db green" href="/user/{{.Data.User.Email}}/newitem">Add Item</a>
@@ -25,7 +45,9 @@
             <tr>
                 <th class="pa1 pa3-ns bb">Item Name</th>
                 <th class="pa1 pa3-ns bb">Price</th>
+				{{if $.CurrentUserEmail}}
                 <th class="pa1 pa3-ns bb">Status</th>
+				{{end}}
             </tr>
         </thead>
         <tbody id="userlist_datatable">
@@ -33,11 +55,13 @@
                 <tr class="hover-bg-near-white" onclick="window.location='/user/{{$.Data.User.Email}}/item/{{.ItemID}}';">
                     <td class="pa1 pa3-ns">{{.Name}}</td>
                     <td class="pa1 pa3-ns tr">{{.Price}} CHF</td>
-                    {{if and $.Data.ThisIsMe (ne .Status.StatusID 3)}}
-                    <td class="pa1 pa3-ns bg-near-white">REDACTED</td>
-                    {{else}}
-                    <td class="pa1 pa3-ns bg-{{call $.Data.GetStatusColour .Status}}">{{.Status.Name}}</td>
-                    {{end}}
+					{{if $.CurrentUserEmail}}
+						{{if and $.Data.ThisIsMe (ne .Status.StatusID 3)}}
+						<td class="pa1 pa3-ns bg-near-white">REDACTED</td>
+						{{else}}
+						<td class="pa1 pa3-ns bg-{{call $.Data.GetStatusColour .Status}}">{{.Status.Name}}</td>
+						{{end}}
+					{{end}}
                 </tr>
             {{end}}
         </tbody>
