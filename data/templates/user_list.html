@@ -23,9 +23,9 @@
 				name="cb_show_reserved"
 				hx-get="/ptl/userlist/{{.Data.User.Email}}"
 				hx-include="#userlist_filters"
-				{{if not .CurrentUserEmail}}disabled{{end}}
+				{{if or (not .CurrentUserEmail) .Data.ThisIsMe}}disabled{{end}}
 			><span
-				{{if .CurrentUserEmail}} class="black" {{else}} class="moon-gray" {{end}}
+				{{if or (not .CurrentUserEmail) .Data.ThisIsMe}} class="moon-gray" {{else}} class="black" {{end}}
 			>Show Reserved Items</span><br>
 		</form>
 

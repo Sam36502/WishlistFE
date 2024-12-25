@@ -93,6 +93,14 @@ func NewItem(c echo.Context) error {
 		}
 	}
 
+	// Add URL if not already included
+	if formItem.LinkText != "" && formItem.LinkURL == "" {
+		formItem.LinkURL = formItem.LinkText
+	}
+	if formItem.LinkURL != "" && formItem.LinkText == "" {
+		formItem.LinkText = formItem.LinkURL
+	}
+
 	// Check if link URL is valid
 	_, err = url.ParseRequestURI(formItem.LinkURL)
 	if formItem.LinkURL != "" && err != nil {

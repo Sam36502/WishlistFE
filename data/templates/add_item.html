@@ -13,10 +13,10 @@
         <div class="mt3">
             <label for="desc-field" class="db f5">Item Description</label>
             <div class="f6 gray">Optional</div>
-            <input id="desc-field" type="text" name="desc" class="mv2 input-reset ba" value="{{.Data.Item.Description}}">
+            <textarea id="desc-field" type="text" name="desc" class="mv2 input-reset ba measure" value="{{.Data.Item.Description}}"></textarea>
         </div>
         <div class="mt3">
-            <label for="price-field" class="db f5">Price in CHF (More flexible price options soon...)</label>
+            <label for="price-field" class="db f5">Price in CHF</label>
             <input id="price-field" type="text" name="price" class="mv2 input-reset ba" value="{{.Data.Item.Price}}">
             {{if .Data.Error.Price}}
                 <i class="db f5 red">{{.Data.Error.Price}}</i>
